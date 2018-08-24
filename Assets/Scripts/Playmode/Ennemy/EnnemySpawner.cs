@@ -1,4 +1,5 @@
-﻿using System;
+﻿
+using System;
 using Playmode.Ennemy.Strategies;
 using Playmode.Util;
 using Playmode.Util.Collections;

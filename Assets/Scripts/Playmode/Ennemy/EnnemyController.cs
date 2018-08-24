@@ -35,6 +35,8 @@ namespace Playmode.Ennemy
             ValidateSerialisedFields();
             InitializeComponent();
             CreateStartingWeapon();
+
+
         }
 
         private void ValidateSerialisedFields()
