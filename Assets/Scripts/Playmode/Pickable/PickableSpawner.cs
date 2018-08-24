@@ -21,24 +21,20 @@ namespace Playmode.Pickable
         [SerializeField] private float minSpawnDelayInSeconds = 3f;
         [SerializeField] private float maxSpawnDelayInSeconds = 10f;
 
-        private bool available;
-        private EnnemyPickableSensor ennemyPickableSensor;
+        public bool available { get; set; }
 
         private void OnEnable()
         {
             available = true;
             StartCoroutine(SpawnPrefabsRoutine());
-            ennemyPickableSensor.OnEnemySensed += NotifyEnnemyPickup;
         }
         private void OnDisable()
         {
             StopAllCoroutines();
-            ennemyPickableSensor.OnEnemySensed -= NotifyEnnemyPickup;
         }
         private void Awake()
         {
             ValidateSerialisedFields();
-            ennemyPickableSensor = GetComponent<EnnemyPickableSensor>();
         }
         private void ValidateSerialisedFields()
         {
@@ -47,15 +43,19 @@ namespace Playmode.Pickable
         }
         private IEnumerator SpawnPrefabsRoutine()
         {
-            if(available)
-            {
                 while (true)
                 {
-                    var rdmSpawnDelayInSeconds = UnityEngine.Random.Range(minSpawnDelayInSeconds, maxSpawnDelayInSeconds);
-                    yield return new WaitForSeconds(rdmSpawnDelayInSeconds);
-                    SpawnRandomPickable();
+                    if(available)
+                    {
+                        var rdmSpawnDelayInSeconds = UnityEngine.Random.Range(minSpawnDelayInSeconds, maxSpawnDelayInSeconds);
+                        yield return new WaitForSeconds(rdmSpawnDelayInSeconds);
+                        SpawnRandomPickable();
                 }
-            }       
+                    else
+                    {
+                        yield return new WaitForSeconds(0.1f);
+                    }               
+                }  
         }
         private void SpawnRandomPickable()
         {
@@ -70,15 +70,13 @@ namespace Playmode.Pickable
         
         private void SpawnPickable(Vector3 position, PickableType type)
         {
-            Instantiate(pickablePrefab, position, Quaternion.identity).GetComponent<PickableController>().Configure(type);
-            available = false;
+            if (available == true)
+            {
+                Instantiate(pickablePrefab, position, Quaternion.identity).GetComponent<PickableController>().Configure(type, this);
+                available = false;
+            }
         }
 
-        private void NotifyEnnemyPickup()
-        {
-           available = true;
-            Debug.Log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
-        }
     }
 
 }

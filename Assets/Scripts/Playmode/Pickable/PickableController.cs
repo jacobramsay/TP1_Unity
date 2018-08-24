@@ -12,10 +12,13 @@ namespace Playmode.Pickable
         [SerializeField] private Sprite ShotgunSprite;
 
         private EnnemyPickableSensor enemySensor;
+        private PickableSpawner pickableSpawner;
 
 
-        public void Configure(PickableType type)
+        public void Configure(PickableType type, PickableSpawner pickableSpawner)
         {
+            this.pickableSpawner = pickableSpawner;
+
             switch (type)
             {
                 case PickableType.MedicalKit:
@@ -59,7 +62,8 @@ namespace Playmode.Pickable
 
         private void NotifyEnemySensed()
         {
-           gameObject.SetActive(false);              
+           gameObject.SetActive(false);
+            pickableSpawner.available = true;
         }
     }
 }
