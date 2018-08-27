@@ -28,6 +28,7 @@ namespace Playmode.Ennemy
         private HitSensor hitSensor;
         private HandController handController;
 
+        private EnnemyStrategy strategyType;
         private IEnnemyStrategy strategy;
 
         private void Awake()
@@ -72,6 +73,7 @@ namespace Playmode.Ennemy
             hitSensor = rootTransform.GetComponentInChildren<HitSensor>();
             handController = hand.GetComponent<HandController>();
 
+            
             strategy = new TurnAndShootStragegy(mover, handController);
         }
 
@@ -109,19 +111,23 @@ namespace Playmode.Ennemy
         {
             body.GetComponent<SpriteRenderer>().color = color;
             sight.GetComponent<SpriteRenderer>().color = color;
-            
-            switch (strategy)
+            strategyType = strategy;
+            switch (strategyType)
             {
                 case EnnemyStrategy.Careful:
+                    this.strategy = new CarefulStrategy(mover, handController);
                     typeSign.GetComponent<SpriteRenderer>().sprite = carefulSprite;
                     break;
                 case EnnemyStrategy.Cowboy:
+                    this.strategy = new CowboyStrategy(mover, handController);
                     typeSign.GetComponent<SpriteRenderer>().sprite = cowboySprite;
                     break;
                 case EnnemyStrategy.Camper:
+                    this.strategy = new CamperStrategy(mover, handController);
                     typeSign.GetComponent<SpriteRenderer>().sprite = camperSprite;
                     break;
                 default:
+                    this.strategy = new NormalStrategy(mover, handController);
                     typeSign.GetComponent<SpriteRenderer>().sprite = normalSprite;
                     break;
             }
@@ -143,11 +149,12 @@ namespace Playmode.Ennemy
 
         private void OnEnnemySeen(EnnemyController ennemy)
         {
+            strategy.UpdateTarget(ennemy);
             Debug.Log("I've seen an ennemy!! Ya so dead noob!!!");
         }
 
         private void OnEnnemySightLost(EnnemyController ennemy)
-        {
+        {                      
             Debug.Log("I've lost sight of an ennemy...Yikes!!!");
         }
     }

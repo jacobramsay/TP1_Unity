@@ -13,7 +13,10 @@ namespace Playmode.Ennemy.Strategies
         {
 
         }
+        public void UpdateTarget(EnnemyController ennemy)
+        {
 
+        }
         public void Act()
         {
 

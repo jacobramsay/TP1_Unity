@@ -13,7 +13,10 @@ namespace Playmode.Ennemy.Strategies
             this.mover = mover;
             this.handController = handController;
         }
+        public void UpdateTarget(EnnemyController ennemy)
+        {
 
+        }
         public void Act()
         {
             mover.Rotate(Mover.Clockwise);
