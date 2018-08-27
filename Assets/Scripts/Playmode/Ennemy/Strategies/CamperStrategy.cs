@@ -1,16 +1,26 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using Playmode.Ennemy.BodyParts;
+using Playmode.Movement;
 using UnityEngine;
 
-public class CamperStrategy : MonoBehaviour {
+namespace Playmode.Ennemy.Strategies
+{
+    public class CamperStrategy : IEnnemyStrategy
+    {
+        private readonly Mover mover;
+        private readonly HandController handController;
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+        public CamperStrategy(Mover mover, HandController handController)
+        {
+
+        }
+
+        public void Act()
+        {
+
+        }
+    }
 }
+
+    
+    
+

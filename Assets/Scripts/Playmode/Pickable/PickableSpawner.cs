@@ -20,13 +20,15 @@ namespace Playmode.Pickable
         [SerializeField] private GameObject pickablePrefab;
         [SerializeField] private float minSpawnDelayInSeconds = 3f;
         [SerializeField] private float maxSpawnDelayInSeconds = 10f;
+  
 
-        public bool available { get; set; }
-
+        public void ActivateSpawnPoint()
+        {
+            StartCoroutine(SpawnPrefabsRoutine());
+        }
         private void OnEnable()
         {
-            available = true;
-            StartCoroutine(SpawnPrefabsRoutine());
+            ActivateSpawnPoint();
         }
         private void OnDisable()
         {
@@ -42,20 +44,10 @@ namespace Playmode.Pickable
                 throw new ArgumentException("Can't spawn null pickable prefab.");                       
         }
         private IEnumerator SpawnPrefabsRoutine()
-        {
-                while (true)
-                {
-                    if(available)
-                    {
-                        var rdmSpawnDelayInSeconds = UnityEngine.Random.Range(minSpawnDelayInSeconds, maxSpawnDelayInSeconds);
-                        yield return new WaitForSeconds(rdmSpawnDelayInSeconds);
-                        SpawnRandomPickable();
-                }
-                    else
-                    {
-                        yield return new WaitForSeconds(0.1f);
-                    }               
-                }  
+        {                                  
+           var rdmSpawnDelayInSeconds = UnityEngine.Random.Range(minSpawnDelayInSeconds, maxSpawnDelayInSeconds);
+           yield return new WaitForSeconds(rdmSpawnDelayInSeconds);
+           SpawnRandomPickable();                                                
         }
         private void SpawnRandomPickable()
         {
@@ -69,12 +61,8 @@ namespace Playmode.Pickable
         }
         
         private void SpawnPickable(Vector3 position, PickableType type)
-        {
-            if (available == true)
-            {
-                Instantiate(pickablePrefab, position, Quaternion.identity).GetComponent<PickableController>().Configure(type, this);
-                available = false;
-            }
+        {        
+            Instantiate(pickablePrefab, position, Quaternion.identity).GetComponent<PickableController>().Configure(type, this);                           
         }
 
     }

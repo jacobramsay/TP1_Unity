@@ -1,16 +1,22 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using Playmode.Ennemy.BodyParts;
+using Playmode.Movement;
 using UnityEngine;
 
-public class NormalStrategy : MonoBehaviour {
+namespace Playmode.Ennemy.Strategies
+{
+    public class NormalStrategy : IEnnemyStrategy
+    {
+        private readonly Mover mover;
+        private readonly HandController handController;
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+        public NormalStrategy(Mover mover, HandController handController)
+        {
+
+        }
+
+        public void Act()
+        {
+
+        }
+    }
 }

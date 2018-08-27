@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Playmode.Ennemy;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -13,13 +14,13 @@ namespace Playmode.Pickable
 
         private EnnemyPickableSensor enemySensor;
         private PickableSpawner pickableSpawner;
-
+        private PickableType type;
 
         public void Configure(PickableType type, PickableSpawner pickableSpawner)
         {
             this.pickableSpawner = pickableSpawner;
-
-            switch (type)
+            this.type = type;
+            switch (this.type)
             {
                 case PickableType.MedicalKit:
                     GetComponent<SpriteRenderer>().sprite = MedicalKitSprite;
@@ -60,10 +61,27 @@ namespace Playmode.Pickable
                 throw new ArgumentException("Type sprites must be provided. ShotgunSprite is missing.");
         }
 
-        private void NotifyEnemySensed()
+        private void NotifyEnemySensed(EnnemyController ennemyController)
+        {                     
+            AffectPickableOnEnemy(ennemyController);
+            pickableSpawner.ActivateSpawnPoint();
+            Destroy(gameObject);
+        }
+
+        private void AffectPickableOnEnemy(EnnemyController ennemyController)
         {
-           gameObject.SetActive(false);
-            pickableSpawner.available = true;
+            switch (type)
+            {
+                case PickableType.MedicalKit:
+                    
+                    break;
+                case PickableType.Uzi:
+                   
+                    break;
+                case PickableType.Shotgun:
+                   
+                    break;
+            }
         }
     }
 }
