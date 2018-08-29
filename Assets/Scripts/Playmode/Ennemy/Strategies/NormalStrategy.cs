@@ -9,7 +9,8 @@ namespace Playmode.Ennemy.Strategies
         private readonly Mover mover;
         private readonly HandController handController;
         private EnnemyController target;        
-        private float rotationAngle;      
+        private float rotationAngle;
+        private Vector3 moverDirection;
         public bool IsChasing { get; set; }
         public NormalStrategy(Mover mover, HandController handController)
         {         
@@ -33,13 +34,14 @@ namespace Playmode.Ennemy.Strategies
         {
             if(IsChasing)
             {
+                moverDirection = GetDirectionToTarget();
                 rotationAngle = GetAngleRotation();                      
                 if (rotationAngle > 2 || rotationAngle < -2 )
                 {
                    mover.Rotate(rotationAngle);
-                }                
-                mover.Move((target.transform.position-mover.transform.position));
-                handController.Use();               
+                }               
+                mover.Move(moverDirection);
+                handController.Use();  
             }                                 
            
         }
