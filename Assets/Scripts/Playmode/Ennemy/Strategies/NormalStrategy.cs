@@ -1,20 +1,18 @@
 ﻿using Playmode.Ennemy.BodyParts;
 using Playmode.Movement;
 using UnityEngine;
+using Playmode.Util.Values;
+using Assets.Scripts.Playmode.Util.Values;
 
 namespace Playmode.Ennemy.Strategies
 {
-    public class NormalStrategy : IEnnemyStrategy
+    public class NormalStrategy : BaseStrategy
     {
-        private readonly Mover mover;
-        private readonly HandController handController;
-        private EnnemyController target;        
-        private float rotationAngle;
-        private Vector3 moverDirection;
-        public bool IsChasing { get; set; }
+
         public NormalStrategy(Mover mover, HandController handController)
         {         
             IsChasing = false;
+            IsSearching = true;
             this.mover = mover;
             this.handController = handController;
         }
@@ -24,53 +22,67 @@ namespace Playmode.Ennemy.Strategies
             {
                 target = ennemy;
                 IsChasing = true;
+                IsSearching = false;
             }            
         }
         public void StopChasing()
         {
             IsChasing = false;
         }
+        public void StartChasing()
+        {
+            IsChasing = true;
+        }
+
+        public void StartSearching()
+        {
+            IsSearching = true;
+        }
+
         public void Act()
         {
             if(IsChasing)
             {
-                moverDirection = GetDirectionToTarget();
-                rotationAngle = GetAngleRotation();                      
-                if (rotationAngle > 2 || rotationAngle < -2 )
+                if (target != null)
+                {                 
+                    Debug.DrawLine(mover.transform.position, target.transform.position);
+                    moverDirection = GetDirectionToTarget();
+                    rotationAngle = GetAngleRotation(target.transform.position);
+                    if (Mathf.Abs(rotationAngle) > 0 )
+                    {
+                        mover.Rotate(rotationAngle);
+                    }
+
+                    if (!IsCloseEnoughToTargetPosition(target.transform.position))
+                    {
+                        mover.Move(Vector3.up);
+                    }
+                    else
+                    {
+                        handController.Use();
+                    }
+
+                }
+                else
                 {
-                   mover.Rotate(rotationAngle);
-                }               
-                mover.Move(moverDirection);
-                handController.Use();  
-            }                                 
-           
-        }
-        private float GetAngleRotation()
-        {
-            Vector3 targetPosition = target.transform.position;
-            Vector3 currentPosition = mover.transform.position;
-            float rotationAngle = Vector3.Angle(currentPosition, targetPosition);
-            Vector3 directionToTarget = targetPosition - currentPosition;
-            float dotProductResult = Vector3.Dot(directionToTarget, mover.transform.right);          
-            if(dotProductResult > 1)
-            {
-                return rotationAngle;
+                    StopChasing();
+                    StartSearching();
+
+                }
             }
-            else if(dotProductResult < -1)
+            else if (IsSearching)
             {
-                return  -rotationAngle;
-            }
-            else
-            {
-                return 0;
+                moverDirection = GetRandomDirection();
+                rotationAngle = GetAngleRotation(moverDirection);
+                if (rotationAngle > 2 || rotationAngle < -2)
+                {
+                    mover.Rotate(rotationAngle);
+                }
+                mover.Move(Vector3.up);
             }
         }
-        private Vector3 GetDirectionToTarget()
-        {
-            Vector3 targetPosition = target.transform.position;
-            Vector3 currentPosition = mover.transform.position;
-            return targetPosition - currentPosition;
-        }
+      
+       
         
     }
 }
