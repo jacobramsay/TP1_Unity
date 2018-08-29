@@ -4,20 +4,13 @@ using UnityEngine;
 
 namespace Playmode.Ennemy.Strategies
 {
-    public class CarefulStrategy : IEnnemyStrategy
-    {
-        private readonly Mover mover;
-        private readonly HandController handController;
-
-        public CarefulStrategy(Mover mover, HandController handController)
+    public class CarefulStrategy : BaseStrategy
+    {       
+        public CarefulStrategy(Mover mover, HandController handController):base(mover,handController)
         {
 
-        }
-        public void UpdateTarget(EnnemyController ennemy)
-        {
-
-        }
-        public void Act()
+        }       
+        public override void Act()
         {
 
         }

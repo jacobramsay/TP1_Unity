@@ -4,20 +4,13 @@ using UnityEngine;
 
 namespace Playmode.Ennemy.Strategies
 {
-    public class CamperStrategy : IEnnemyStrategy
-    {
-        private readonly Mover mover;
-        private readonly HandController handController;
-
-        public CamperStrategy(Mover mover, HandController handController)
+    public class CamperStrategy : BaseStrategy
+    {      
+        public CamperStrategy(Mover mover, HandController handController):base(mover,handController)
         {
 
         }
-        public void UpdateTarget(EnnemyController ennemy)
-        {
-
-        }
-        public void Act()
+        public override void Act()
         {
 
         }

@@ -3,21 +3,14 @@ using Playmode.Movement;
 
 namespace Playmode.Ennemy.Strategies
 {
-    public class TurnAndShootStragegy : IEnnemyStrategy
+    public class TurnAndShootStragegy : BaseStrategy
     {
-        private readonly Mover mover;
-        private readonly HandController handController;
-
-        public TurnAndShootStragegy(Mover mover, HandController handController)
+    
+        public TurnAndShootStragegy(Mover mover, HandController handController):base(mover,handController)
         {
-            this.mover = mover;
-            this.handController = handController;
-        }
-        public void UpdateTarget(EnnemyController ennemy)
-        {
-
-        }
-        public void Act()
+           
+        }     
+        public override void Act()
         {
             mover.Rotate(Mover.Clockwise);
 

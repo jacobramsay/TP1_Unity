@@ -1,4 +1,5 @@
 ﻿using System.Numerics;
+using UnityEngine;
 
 namespace Playmode.Ennemy.Strategies
 {
@@ -6,7 +7,7 @@ namespace Playmode.Ennemy.Strategies
     {
       
         void Act();
-        void UpdateTarget(EnnemyController ennemy);       
+        void UpdateTarget(GameObject target);       
     }
 
     public enum EnnemyStrategy

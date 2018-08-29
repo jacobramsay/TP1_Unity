@@ -149,7 +149,7 @@ namespace Playmode.Ennemy
 
         private void OnEnnemySeen(EnnemyController ennemy)
         {
-            strategy.UpdateTarget(ennemy);
+            strategy.UpdateTarget(ennemy.body);
             Debug.Log("I've seen an ennemy!! Ya so dead noob!!!");
         }
 

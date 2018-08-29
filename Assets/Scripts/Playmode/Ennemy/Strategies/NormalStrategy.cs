@@ -9,43 +9,16 @@ namespace Playmode.Ennemy.Strategies
     public class NormalStrategy : BaseStrategy
     {
 
-        public NormalStrategy(Mover mover, HandController handController)
+        public NormalStrategy(Mover mover, HandController handController): base(mover,handController)
         {         
-            IsChasing = false;
-            IsSearching = true;
-            this.mover = mover;
-            this.handController = handController;
-        }
-        public void UpdateTarget(EnnemyController ennemy)
-        {
-            if(!IsChasing)
-            {
-                target = ennemy;
-                IsChasing = true;
-                IsSearching = false;
-            }            
-        }
-        public void StopChasing()
-        {
-            IsChasing = false;
-        }
-        public void StartChasing()
-        {
-            IsChasing = true;
-        }
-
-        public void StartSearching()
-        {
-            IsSearching = true;
-        }
-
-        public void Act()
+                      
+        }              
+        public override void Act()
         {
             if(IsChasing)
             {
                 if (target != null)
-                {                 
-                    Debug.DrawLine(mover.transform.position, target.transform.position);
+                {                                     
                     moverDirection = GetDirectionToTarget();
                     rotationAngle = GetAngleRotation(target.transform.position);
                     if (Mathf.Abs(rotationAngle) > 0 )
@@ -53,14 +26,11 @@ namespace Playmode.Ennemy.Strategies
                         mover.Rotate(rotationAngle);
                     }
 
-                    if (!IsCloseEnoughToTargetPosition(target.transform.position))
-                    {
-                        mover.Move(Vector3.up);
-                    }
-                    else
+                    if (IsCloseEnoughToTargetPosition(target.transform.position))
                     {
                         handController.Use();
-                    }
+                    }                    
+                    mover.Move(Vector3.up);
 
                 }
                 else

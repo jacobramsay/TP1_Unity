@@ -1,4 +1,5 @@
-﻿using Playmode.Ennemy.BodyParts;
+﻿using Assets.Scripts.Playmode.Util.Values;
+using Playmode.Ennemy.BodyParts;
 using Playmode.Movement;
 using System;
 using System.Collections.Generic;
@@ -14,23 +15,49 @@ namespace Playmode.Ennemy.Strategies
         [SerializeField] protected float range = 7f;
         protected readonly Mover mover;
         protected readonly HandController handController;
-        protected EnnemyController target;
+        protected GameObject target;
         protected float rotationAngle;
         protected Vector3 moverDirection;
         public bool IsChasing { get; set; }
         public bool IsSearching { get; set; }
 
+        public BaseStrategy(Mover mover, HandController handController)
+        {
+            this.mover = mover;
+            this.handController = handController;
+            IsChasing = false;
+            IsSearching = true;
 
-        public void Act()
+        }
+
+        public virtual void  Act()
         {
             throw new NotImplementedException();
         }
-
-        public void UpdateTarget(EnnemyController ennemy)
+        public void StopChasing()
         {
-            throw new NotImplementedException();
+            IsChasing = false;
         }
-        private float GetAngleRotation(Vector3 targetPosition)
+        public void StartChasing()
+        {
+            IsChasing = true;
+        }
+
+        public void StartSearching()
+        {
+            IsSearching = true;
+        }
+
+        public void UpdateTarget(GameObject target)
+        {
+            if (!IsChasing)
+            {
+                this.target = target;
+                IsChasing = true;
+                IsSearching = false;
+            }
+        }
+        protected float GetAngleRotation(Vector3 targetPosition)
         {
             Vector3 currentPosition = mover.transform.position;
             float rotationAngle = Vector3.Angle(currentPosition, targetPosition);
@@ -50,14 +77,14 @@ namespace Playmode.Ennemy.Strategies
             }
         }
 
-        private Vector3 GetDirectionToTarget()
+        protected Vector3 GetDirectionToTarget()
         {
             Vector3 targetPosition = target.transform.position;
             Vector3 currentPosition = mover.transform.position;
             return targetPosition - currentPosition;
         }
 
-        private Vector3 GetRandomDirection()
+        protected Vector3 GetRandomDirection()
         {
             var randomX = UnityEngine.Random.Range(Const.MIN_GAME_WIDTH, Const.MAX_GAME_WIDTH);
             var randomY = UnityEngine.Random.Range(Const.MIN_GAME_HEIGHT, Const.MAX_GAME_HEIGHT);
@@ -65,12 +92,12 @@ namespace Playmode.Ennemy.Strategies
             return new Vector3(randomX, randomY, 0) - mover.transform.position;
         }
 
-        private float GetDistanceBetweenTargetPosition(Vector3 target)
+        protected float GetDistanceBetweenTargetPosition(Vector3 target)
         {
             return Vector3.Distance(mover.transform.position, target);
         }
 
-        private bool IsCloseEnoughToTargetPosition(Vector3 target)
+        protected bool IsCloseEnoughToTargetPosition(Vector3 target)
         {
             float distance = GetDistanceBetweenTargetPosition(target);
             return distance <= range;

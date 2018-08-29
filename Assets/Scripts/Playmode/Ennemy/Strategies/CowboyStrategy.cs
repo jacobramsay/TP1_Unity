@@ -4,20 +4,14 @@ using UnityEngine;
 
 namespace Playmode.Ennemy.Strategies
 {
-    public class CowboyStrategy : IEnnemyStrategy
-    {
-        private readonly Mover mover;
-        private readonly HandController handController;
-
-        public CowboyStrategy(Mover mover, HandController handController)
+    public class CowboyStrategy : BaseStrategy
+    { 
+       
+        public CowboyStrategy(Mover mover, HandController handController):base(mover,handController)
         {
 
-        }
-        public void UpdateTarget(EnnemyController ennemy)
-        {
-
-        }
-        public void Act()
+        }       
+        public override void Act()
         {
 
         }
