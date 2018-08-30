@@ -8,12 +8,25 @@ namespace Playmode.Bullet
     public class BulletController : MonoBehaviour
     {
         [Header("Behaviour")] [SerializeField] private float lifeSpanInSeconds = 5f;
-
+        [SerializeField] private int damageHitPoints = 10;
         private Mover mover;
         private Destroyer destroyer;
         private float timeSinceSpawnedInSeconds;
 
         private bool IsAlive => timeSinceSpawnedInSeconds < lifeSpanInSeconds;
+
+        public int DamageHitPoints
+        {
+            get
+            {
+                return damageHitPoints;
+            }
+
+            set
+            {
+                damageHitPoints = value;
+            }
+        }
 
         private void Awake()
         {

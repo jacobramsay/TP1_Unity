@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.Playmode.Weapon;
+using Playmode.Bullet;
 using System;
 using UnityEngine;
 
@@ -29,24 +30,28 @@ namespace Playmode.Weapon
                 case WeaponType.Uzi:
                    // GetComponent<SpriteRenderer>().sprite = UziSprite;
                    if(type == weaponType)
-                    {
+                    {                        
                         fireDelayInSeconds = fireDelayInSeconds/2;
+                        bulletPrefab.GetComponentInChildren<BulletController>().DamageHitPoints++;
                     }
-                   else
+                    else
                     {
                         type = weaponType;
-                        fireDelayInSeconds = fireDelayInSeconds / 2;
+                        fireDelayInSeconds = fireDelayInSeconds / 5;
                         weaponDamage -= weaponDamage / 2;
+                        bulletPrefab.GetComponentInChildren<BulletController>().DamageHitPoints = 5;
                     }
                     break;
                 case WeaponType.Shotgun:
                     // GetComponent<SpriteRenderer>().sprite = ShotgunSprite;
                     if (type == weaponType)
                     {
+                        bulletPrefab.GetComponentInChildren<BulletController>().DamageHitPoints += 5;
                         weaponDamage += weaponDamage / 2;
                     }
                     else
                     {
+                        bulletPrefab.GetComponentInChildren<BulletController>().DamageHitPoints = 20;
                         type = weaponType;
                         fireDelayInSeconds = 2.5f;
                     }

@@ -113,6 +113,7 @@ GameObject:
   - component: {fileID: 114842752972343190}
   - component: {fileID: 114136075856512652}
   - component: {fileID: 114546024113809148}
+  - component: {fileID: 114255075987215334}
   m_Layer: 0
   m_Name: Body
   m_TagString: Enemy
@@ -290,7 +291,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
 --- !u!114 &114255075987215334
 MonoBehaviour:
-  m_ObjectHideFlags: 1
+  m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1880469799408478}

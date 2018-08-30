@@ -6,19 +6,18 @@ using UnityEngine;
 namespace Playmode.Entity.Senses
 {
     public class HitStimulus : MonoBehaviour
-    {
-        [Header("Behaviour")] [SerializeField] private int hitPoints = 10;
+    {       
         private BulletController bullet;
    
         private void Awake()
         {
-            ValidateSerializeFields();
             InitializeComponent();
+            ValidateSerializeFields();          
         }
 
         private void ValidateSerializeFields()
         {
-            if (hitPoints < 0)
+            if (bullet.DamageHitPoints < 0)
                 throw new ArgumentException("Hit points can't be less than 0.");
         }
         private void InitializeComponent()
@@ -30,7 +29,7 @@ namespace Playmode.Entity.Senses
         {
             if(other.tag == Tags.Enemy)
             {
-                other.GetComponent<Entity.Senses.HitSensor>()?.Hit(hitPoints);
+                other.GetComponent<Entity.Senses.HitSensor>()?.Hit(bullet.DamageHitPoints);
                 bullet.GetComponent<Entity.Destruction.RootDestroyer>()?.Destroy();
             }                            
         }
