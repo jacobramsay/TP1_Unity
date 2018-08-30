@@ -86,7 +86,7 @@ namespace Playmode.Ennemy.Strategies
         }
         private bool NeedsMedicalKit()
         {            
-            return health.HealthPoints <= 100;
+            return health.HealthPoints <= 25;
         }        
     }
 }
