@@ -168,7 +168,7 @@ namespace Playmode.Ennemy
 
         private void OnPickableSeen(PickableController pickable)
         {
-           
+            strategy.PickableDetected(pickable);
             Debug.Log("I see a Pickable LOOOOOOOOOOOOOOOOOOOOOL");
         }
         private void OnPickableSightLost(PickableController pickable)
