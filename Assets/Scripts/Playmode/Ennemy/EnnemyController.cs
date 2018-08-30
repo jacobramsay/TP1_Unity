@@ -109,8 +109,8 @@ namespace Playmode.Ennemy
         {
             ennemySensor.OnEnnemySeen -= OnEnnemySeen;
             ennemySensor.OnEnnemySightLost -= OnEnnemySightLost;
-            pickableSensor.OnPickableSeen += OnPickableSeen;
-            pickableSensor.OnPickableSightLost += OnPickableSightLost;
+            pickableSensor.OnPickableSeen -= OnPickableSeen;
+            pickableSensor.OnPickableSightLost -= OnPickableSightLost;
             hitSensor.OnHit -= OnHit;
             health.OnDeath -= OnDeath;
         }
