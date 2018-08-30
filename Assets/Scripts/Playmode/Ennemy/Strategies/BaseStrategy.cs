@@ -20,8 +20,7 @@ namespace Playmode.Ennemy.Strategies
         protected float rotationAngle;
         protected Vector3 moverDirection;
         public bool IsChasing { get; set; }
-        public bool IsSearching { get; set; }
-
+        public bool IsSearching { get; set; }        
         public BaseStrategy(Mover mover, HandController handController)
         {
             this.mover = mover;
@@ -49,7 +48,7 @@ namespace Playmode.Ennemy.Strategies
             IsSearching = true;
         }
 
-        public void UpdateTarget(GameObject target)
+        public virtual void UpdateTarget(GameObject target)
         {
             if (!IsChasing)
             {
@@ -61,7 +60,6 @@ namespace Playmode.Ennemy.Strategies
 
         public virtual void PickableDetected(PickableController pickable)
         {
-
         }
 
         protected float GetAngleRotation(Vector3 targetPosition)
@@ -108,6 +106,6 @@ namespace Playmode.Ennemy.Strategies
         {
             float distance = GetDistanceBetweenTargetPosition(target);
             return distance <= range;
-        }
+        }        
     }
 }

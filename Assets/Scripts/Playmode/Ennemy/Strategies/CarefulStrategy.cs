@@ -2,6 +2,7 @@
 using Playmode.Entity.Status;
 using Playmode.Movement;
 using Playmode.Pickable;
+using Playmode.Util.Values;
 using UnityEngine;
 
 namespace Playmode.Ennemy.Strategies
@@ -9,10 +10,11 @@ namespace Playmode.Ennemy.Strategies
     public class CarefulStrategy : BaseStrategy
     {
         Health health;
-        public CarefulStrategy(Mover mover, HandController handController):base(mover,handController)
+
+        public CarefulStrategy(Mover mover, HandController handController) : base(mover, handController)
         {
             health = mover.transform.GetComponent<Health>();
-        }       
+        }
         public override void Act()
         {
             if (IsChasing)
@@ -25,26 +27,31 @@ namespace Playmode.Ennemy.Strategies
                     {
                         mover.Rotate(rotationAngle);
                     }
-
-                    if (IsCloseEnoughToTargetPosition(target.transform.position))
+                    if(target.tag == Tags.Enemy)
                     {
-                        handController.Use();
+                        if (IsCloseEnoughToTargetPosition(target.transform.position))
+                        {
+                            handController.Use();
+                        }
+                        else
+                        {
+                            mover.Move(Vector3.up);
+                        }
                     }
                     else
                     {
                         mover.Move(Vector3.up);
                     }
-                    if(NeedsMedicalKit())
+                    if(NeedsMedicalKit() && target.tag == Tags.Enemy)
                     {
                         StopChasing();
                         StartSearching();
                     }
-                }
+                }              
                 else
                 {
                     StopChasing();
                     StartSearching();
-
                 }                
             }
             else if (IsSearching)
@@ -56,15 +63,30 @@ namespace Playmode.Ennemy.Strategies
                     mover.Rotate(rotationAngle);
                 }
                 mover.Move(Vector3.up);
-            }
+            }            
         }
         public override void PickableDetected(PickableController pickable)
         {
-            
+           if(!IsChasing)
+            {
+                if(!NeedsMedicalKit())
+                {
+                    target = pickable.gameObject;
+                    StartChasing();
+                }
+                else
+                {
+                    if(pickable.GetPickableType() == PickableType.MedicalKit)
+                    {
+                        target = pickable.gameObject;
+                        StartChasing();
+                    }
+                }
+            }
         }
         private bool NeedsMedicalKit()
-        {
-            return health.HealthPoints <= 25;
-        }
+        {            
+            return health.HealthPoints <= 100;
+        }        
     }
 }

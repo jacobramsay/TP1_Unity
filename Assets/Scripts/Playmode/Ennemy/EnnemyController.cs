@@ -140,7 +140,10 @@ namespace Playmode.Ennemy
                     break;
             }
         }
-
+        private void OnHeal(int healPoints)
+        {
+            health.Heal(healPoints);
+        }
         private void OnHit(int hitPoints)
         {
            // Debug.Log("OW, I'm hurt! I'm really much hurt!!!");
@@ -168,8 +171,7 @@ namespace Playmode.Ennemy
 
         private void OnPickableSeen(PickableController pickable)
         {
-            strategy.PickableDetected(pickable);
-            Debug.Log("I see a Pickable LOOOOOOOOOOOOOOOOOOOOOL");
+                strategy.PickableDetected(pickable);
         }
         private void OnPickableSightLost(PickableController pickable)
         {
