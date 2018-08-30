@@ -1,4 +1,5 @@
 ﻿using Playmode.Ennemy.BodyParts;
+using Playmode.Entity.Status;
 using Playmode.Movement;
 using Playmode.Pickable;
 using UnityEngine;
@@ -11,11 +12,12 @@ namespace Playmode.Ennemy.Strategies
         private bool IsChasingGun;
         private bool IsChasingMedic;
         private GameObject targetEnnemy;
+        Health health;
 
 
         public CamperStrategy(Mover mover, HandController handController) : base(mover, handController)
         {
-
+            health = mover.transform.GetComponent<Health>();
         }
         public override void Act()
         {
@@ -44,6 +46,17 @@ namespace Playmode.Ennemy.Strategies
                 if (target != null)
                 {
                     if ((IsCloseEnoughToMedicPosition(target.transform.position) == false))
+                    {
+                        moverDirection = GetDirectionToTarget();
+                        rotationAngle = GetAngleRotation(target.transform.position);
+                        if (Mathf.Abs(rotationAngle) > 0)
+                        {
+                            mover.Rotate(rotationAngle);
+                        }
+                        mover.Move(Vector3.up);
+                    }
+
+                    if(health.HealthPoints<=25)
                     {
                         moverDirection = GetDirectionToTarget();
                         rotationAngle = GetAngleRotation(target.transform.position);
