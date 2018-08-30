@@ -27,7 +27,6 @@ namespace Playmode.Ennemy.Strategies
             this.handController = handController;
             IsChasing = false;
             IsSearching = true;
-
         }
 
         public virtual void  Act()
