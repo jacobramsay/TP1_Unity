@@ -1,4 +1,5 @@
 ﻿using System;
+using Assets.Scripts.Playmode.Weapon;
 using Playmode.Ennemy.BodyParts;
 using Playmode.Ennemy.Strategies;
 using Playmode.Entity.Destruction;
@@ -6,6 +7,7 @@ using Playmode.Entity.Senses;
 using Playmode.Entity.Status;
 using Playmode.Movement;
 using Playmode.Pickable;
+using Playmode.Weapon;
 using UnityEngine;
 
 namespace Playmode.Ennemy
@@ -173,6 +175,11 @@ namespace Playmode.Ennemy
         private void OnPickableSightLost(PickableController pickable)
         {
             Debug.Log("I've lost sight of an pickable...Yikes!!!");
+        }
+
+        public void NewWeapon(WeaponType type)
+        {
+            hand.GetComponent<WeaponController>().Configure(type);
         }
     }
 }
