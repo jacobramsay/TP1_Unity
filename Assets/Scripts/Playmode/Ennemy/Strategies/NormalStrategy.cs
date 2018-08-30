@@ -29,8 +29,11 @@ namespace Playmode.Ennemy.Strategies
                     if (IsCloseEnoughToTargetPosition(target.transform.position))
                     {
                         handController.Use();
-                    }                    
-                    mover.Move(Vector3.up);
+                    }
+                    else
+                    {
+                        mover.Move(Vector3.up);
+                    }                   
 
                 }
                 else

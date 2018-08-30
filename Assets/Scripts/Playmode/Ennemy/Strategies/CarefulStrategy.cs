@@ -14,6 +14,7 @@ namespace Playmode.Ennemy.Strategies
         public CarefulStrategy(Mover mover, HandController handController) : base(mover, handController)
         {
             health = mover.transform.GetComponent<Health>();
+            range *= 2;
         }
         public override void Act()
         {

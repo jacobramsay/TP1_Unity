@@ -1,6 +1,7 @@
 ﻿using Assets.Scripts.Playmode.Weapon;
 using Playmode.Ennemy;
 using Playmode.Ennemy.BodyParts;
+using Playmode.Entity.Destruction;
 using Playmode.Weapon;
 using System;
 using System.Collections;
@@ -17,6 +18,7 @@ namespace Playmode.Pickable
         private EnnemyPickableSensor enemySensor;
         private PickableSpawner pickableSpawner;
         private PickableType type;
+        private Destroyer destroyer;
 
         public void Configure(PickableType type, PickableSpawner pickableSpawner)
         {
@@ -45,6 +47,7 @@ namespace Playmode.Pickable
             ValidateSerialisedFields();
 
             enemySensor = GetComponent<EnnemyPickableSensor>();
+            destroyer = GetComponent<RootDestroyer>();
         }
 
         private void OnEnable()
@@ -71,7 +74,7 @@ namespace Playmode.Pickable
         {                     
             AffectPickableOnEnemy(ennemyController);
             pickableSpawner.ActivateSpawnPoint();
-            Destroy(gameObject);
+            destroyer.Destroy();
         }
 
         private void AffectPickableOnEnemy(EnnemyController ennemyController)

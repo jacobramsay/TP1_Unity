@@ -49,7 +49,10 @@ namespace Playmode.Ennemy.Strategies
                     {
                         handController.Use();
                     }
-                    mover.Move(Vector3.up);
+                    else
+                    {
+                        mover.Move(Vector3.up);
+                    }                   
                 }
                 else
                 {

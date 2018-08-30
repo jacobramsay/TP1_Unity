@@ -30,7 +30,7 @@ namespace Playmode.Ennemy.Strategies
                         mover.Rotate(rotationAngle);
                     }
                     mover.Move(Vector3.up);
-                    Debug.Log("Jai trouver une armeeeeee et javance dessus");               
+                             
                 }
                 else
                 {

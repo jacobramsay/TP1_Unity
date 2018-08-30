@@ -13,7 +13,7 @@ namespace Playmode.Ennemy.Strategies
 {
     public class BaseStrategy : IEnnemyStrategy
     {
-        [SerializeField] protected float range = 7f;
+        [SerializeField] protected float range = 3.5f;
         protected readonly Mover mover;
         protected readonly HandController handController;
         protected GameObject target;
