@@ -8,66 +8,18 @@ namespace Playmode.Ennemy.Strategies
     public class CamperStrategy : BaseStrategy
     {
         [SerializeField] private float rangeMedic = 3f;
-        private bool IsChasingGun=false;
-        private bool IsChasingMedic=false;
+        private bool IsChasingGun;
+        private bool IsChasingMedic;
         private GameObject targetEnnemy;
 
 
         public CamperStrategy(Mover mover, HandController handController) : base(mover, handController)
         {
-            IsChasingGun = false;
-            IsChasingMedic = false;
+
         }
         public override void Act()
         {
-            if (IsChasingMedic)
-            {
-                if (target != null)
-                {
-                    if (IsCloseEnoughToMedicPosition(target.transform.position) == false)
-                    {
-                        moverDirection = GetDirectionToTarget();
-                        rotationAngle = GetAngleRotation(target.transform.position);
-                        if (Mathf.Abs(rotationAngle) > 0)
-                        {
-                            mover.Rotate(rotationAngle);
-                        }
-                        mover.Move(Vector3.up);
-                        Debug.Log("Jai trouver un medic et javance dessus");
-                    }
-
-                    else if (IsCloseEnoughToMedicPosition(target.transform.position))
-                    {
-                        //StopChasingMedic();
-                        StopChasing();
-                        if(targetEnnemy==null)
-                        {
-                            UpdateTarget(targetEnnemy);
-                            Debug.Log("Jai trouver une cible");
-                        }
-                        if(targetEnnemy!=null)
-                        {
-                            moverDirection = GetDirectionToTargetEnnemy();
-                            rotationAngle = GetAngleRotation(targetEnnemy.transform.position);
-                            if (Mathf.Abs(rotationAngle) > 0)
-                            {
-                                mover.Rotate(rotationAngle);
-                            }
-                            handController.Use();
-                            Debug.Log("Jai trouver un medic, je commence a tirer sur les ennemis");
-                        }
-
-                                                              
-                    }
-                    else
-                    {
-                        StopChasing();
-                        StartSearching();
-                    }
-                }
-            }
-
-            else if(IsChasingGun)
+            if(IsChasingGun)
             {
                 if(target!=null)
                 {
@@ -82,10 +34,42 @@ namespace Playmode.Ennemy.Strategies
                 }
                 else
                 {
-                    StopChasingGun();
                     StartSearching();
+                    StopChasingGun();
                 }
 
+            }
+            else if (IsChasingMedic)
+            {
+                if (target != null)
+                {
+                    if ((IsCloseEnoughToMedicPosition(target.transform.position) == false))
+                    {
+                        moverDirection = GetDirectionToTarget();
+                        rotationAngle = GetAngleRotation(target.transform.position);
+                        if (Mathf.Abs(rotationAngle) > 0)
+                        {
+                            mover.Rotate(rotationAngle);
+                        }
+                        mover.Move(Vector3.up);
+                    }
+
+                    else if(targetEnnemy != null)
+                    {
+                        moverDirection = GetDirectionToTargetEnnemy();
+                        rotationAngle = GetAngleRotation(targetEnnemy.transform.position);
+                        if (Mathf.Abs(rotationAngle) > 0)
+                        {
+                            mover.Rotate(rotationAngle);
+                        }
+                        handController.Use();
+                    }
+                }
+                else
+                {
+                    StartSearching();
+                    StopChasingMedic();
+                }
             }
             else if (IsSearching)
             {
@@ -96,35 +80,34 @@ namespace Playmode.Ennemy.Strategies
                     mover.Rotate(rotationAngle);
                 }
                 mover.Move(Vector3.up);
+                Debug.Log("SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS");
             }
         }
 
         public override void UpdateTarget(GameObject targetEnnemy)
         {
-            if (!IsChasing && !IsChasingGun && !IsChasingMedic)
+            if ((!IsChasing && !IsChasingGun &&!IsChasingMedic) || (IsChasingMedic && (IsCloseEnoughToMedicPosition(target.transform.position)) && target != null))
             {
                 this.targetEnnemy = targetEnnemy;
-                IsChasing = true;
-                IsSearching = false;
             }
         }
 
         public override void PickableDetected(PickableController pickable)
         {
             if (pickable!=null)
-            {
-             
+            {            
                 if (pickable.GetPickableType() == PickableType.MedicalKit)
                 {
                     target = pickable.gameObject;
                     StartChasingMedic();
-                    StopChasing();
+                    IsSearching = false;
                 }
                 else if (pickable.GetPickableType() == PickableType.Shotgun || pickable.GetPickableType() == PickableType.Uzi)
                 {
                     target = pickable.gameObject;
                     StartChasingGun();
-                    StopChasing();
+                    StopChasingMedic();
+                    IsSearching = false;
                 }
             }
         }
