@@ -24,6 +24,7 @@ GameObject:
   - component: {fileID: 114656504321035682}
   - component: {fileID: 114880816973909522}
   - component: {fileID: 114103504295715064}
+  - component: {fileID: 114327151885067494}
   m_Layer: 0
   m_Name: Pickable
   m_TagString: Pickable
@@ -80,6 +81,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b87ea6b92fe3f945b95227079ea11aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &114327151885067494
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1974105292275166}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dcdb02511594080418eefb7c1a885117, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  healPoints: 10
 --- !u!114 &114656504321035682
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -94,7 +107,6 @@ MonoBehaviour:
   MedicalKitSprite: {fileID: 21300000, guid: 3d6a1a06a1492b642843815eaf1473f2, type: 3}
   UziSprite: {fileID: 21300000, guid: 4166c9b012500ce46b26933a54c1e2c0, type: 3}
   ShotgunSprite: {fileID: 21300000, guid: 1c1c41f0b46bb6447b08bb9873173397, type: 3}
-  MedicalKitHealthPoints: 10
 --- !u!114 &114880816973909522
 MonoBehaviour:
   m_ObjectHideFlags: 1

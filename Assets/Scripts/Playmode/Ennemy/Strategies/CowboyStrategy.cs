@@ -18,7 +18,7 @@ namespace Playmode.Ennemy.Strategies
         {
             if(IsChasingPickable)
             {
-                if (target != null)
+                if (target != null && target.activeSelf)
                 {
                     moverDirection = GetDirectionToTarget();
                     rotationAngle = GetAngleRotation(target.transform.position);
@@ -36,7 +36,7 @@ namespace Playmode.Ennemy.Strategies
             }
             else if (IsChasing)
             {
-                if (target != null)
+                if (target != null && target.activeSelf)
                 {
                     moverDirection = GetDirectionToTarget();
                     rotationAngle = GetAngleRotation(target.transform.position);

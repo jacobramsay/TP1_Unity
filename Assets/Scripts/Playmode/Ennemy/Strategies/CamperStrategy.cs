@@ -21,7 +21,7 @@ namespace Playmode.Ennemy.Strategies
         {
             if(IsChasingGun)
             {
-                if(target!=null)
+                if(target != null && target.activeSelf)
                 {
                     moverDirection = GetDirectionToTarget();
                     rotationAngle = GetAngleRotation(target.transform.position);
@@ -41,7 +41,7 @@ namespace Playmode.Ennemy.Strategies
             }
             else if (IsChasingMedic)
             {
-                if (target != null)
+                if (target != null && target.activeSelf)
                 {
                     if ((IsCloseEnoughToMedicPosition(target.transform.position) == false))
                     {
@@ -80,7 +80,6 @@ namespace Playmode.Ennemy.Strategies
                     mover.Rotate(rotationAngle);
                 }
                 mover.Move(Vector3.up);
-                Debug.Log("SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS");
             }
         }
 
