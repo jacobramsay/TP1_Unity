@@ -8,7 +8,7 @@ namespace Playmode.Weapon
     {
         [Header("Behaviour")] [SerializeField] private GameObject bulletPrefab;
         [SerializeField] private float fireDelayInSeconds = 2f;
-        [SerializeField] private float weaponDamage = 1f;
+        [SerializeField] private float weaponDamage = 0f;
 
         private float lastTimeShotInSeconds;
         private WeaponType type;
@@ -30,12 +30,13 @@ namespace Playmode.Weapon
                    // GetComponent<SpriteRenderer>().sprite = UziSprite;
                    if(type == weaponType)
                     {
-                        fireDelayInSeconds = fireDelayInSeconds / 2;
+                        fireDelayInSeconds = fireDelayInSeconds/2;
                     }
                    else
                     {
                         type = weaponType;
-                        fireDelayInSeconds = 1f;
+                        fireDelayInSeconds = fireDelayInSeconds / 2;
+                        weaponDamage -= weaponDamage / 2;
                     }
                     break;
                 case WeaponType.Shotgun:
@@ -47,7 +48,7 @@ namespace Playmode.Weapon
                     else
                     {
                         type = weaponType;
-                        fireDelayInSeconds = 5f;
+                        fireDelayInSeconds = 2.5f;
                     }
                     break;
             }

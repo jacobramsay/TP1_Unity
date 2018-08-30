@@ -171,7 +171,7 @@ namespace Playmode.Ennemy
 
         private void OnEnnemySeen(EnnemyController ennemy)
         {
-            strategy.UpdateTarget(ennemy.body);
+           strategy.UpdateTarget(ennemy.body);
            // Debug.Log("I've seen an ennemy!! Ya so dead noob!!!");
         }
 
@@ -182,7 +182,7 @@ namespace Playmode.Ennemy
 
         private void OnPickableSeen(PickableController pickable)
         {
-                strategy.PickableDetected(pickable);
+              strategy.PickableDetected(pickable);
         }
         private void OnPickableSightLost(PickableController pickable)
         {
