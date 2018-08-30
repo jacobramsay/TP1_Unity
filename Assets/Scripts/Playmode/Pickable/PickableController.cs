@@ -1,4 +1,7 @@
-﻿using Playmode.Ennemy;
+﻿using Assets.Scripts.Playmode.Weapon;
+using Playmode.Ennemy;
+using Playmode.Ennemy.BodyParts;
+using Playmode.Weapon;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -11,7 +14,7 @@ namespace Playmode.Pickable
         [Header("Type Images")] [SerializeField] private Sprite MedicalKitSprite;
         [SerializeField] private Sprite UziSprite;
         [SerializeField] private Sprite ShotgunSprite;
-
+        [SerializeField] private int MedicalKitHealthPoints = 10;
         private EnnemyPickableSensor enemySensor;
         private PickableSpawner pickableSpawner;
         private PickableType type;
@@ -74,16 +77,24 @@ namespace Playmode.Pickable
 
         private void AffectPickableOnEnemy(EnnemyController ennemyController)
         {
+
+            var rootTransform = transform.root;
+            var weaponController = rootTransform.GetComponentInChildren<WeaponController>();
+
+
             switch (type)
             {
                 case PickableType.MedicalKit:
                     
                     break;
                 case PickableType.Uzi:
-                   
+                    // weaponController.Configure(WeaponType.Uzi);
+                   // ennemyController.NewWeapon(WeaponType.Uzi);
                     break;
                 case PickableType.Shotgun:
-                   
+                    //  weaponController.Configure(WeaponType.Shotgun);
+                   // ennemyController.NewWeapon(WeaponType.Shotgun);
+
                     break;
             }
         }

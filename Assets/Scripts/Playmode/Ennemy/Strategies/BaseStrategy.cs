@@ -20,8 +20,7 @@ namespace Playmode.Ennemy.Strategies
         protected float rotationAngle;
         protected Vector3 moverDirection;
         public bool IsChasing { get; set; }
-        public bool IsSearching { get; set; }
-
+        public bool IsSearching { get; set; }        
         public BaseStrategy(Mover mover, HandController handController)
         {
             this.mover = mover;
@@ -107,6 +106,6 @@ namespace Playmode.Ennemy.Strategies
         {
             float distance = GetDistanceBetweenTargetPosition(target);
             return distance <= range;
-        }
+        }        
     }
 }

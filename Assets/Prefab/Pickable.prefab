@@ -26,7 +26,7 @@ GameObject:
   - component: {fileID: 114103504295715064}
   m_Layer: 0
   m_Name: Pickable
-  m_TagString: Untagged
+  m_TagString: Pickable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -94,6 +94,7 @@ MonoBehaviour:
   MedicalKitSprite: {fileID: 21300000, guid: 3d6a1a06a1492b642843815eaf1473f2, type: 3}
   UziSprite: {fileID: 21300000, guid: 4166c9b012500ce46b26933a54c1e2c0, type: 3}
   ShotgunSprite: {fileID: 21300000, guid: 1c1c41f0b46bb6447b08bb9873173397, type: 3}
+  MedicalKitHealthPoints: 10
 --- !u!114 &114880816973909522
 MonoBehaviour:
   m_ObjectHideFlags: 1

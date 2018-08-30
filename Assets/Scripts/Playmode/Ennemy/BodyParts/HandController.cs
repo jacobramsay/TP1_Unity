@@ -1,4 +1,5 @@
 ﻿using System;
+using Assets.Scripts.Playmode.Weapon;
 using Playmode.Movement;
 using Playmode.Weapon;
 using UnityEngine;
@@ -39,6 +40,11 @@ namespace Playmode.Ennemy.BodyParts
         {
             //TODO : Utilisez ce que vous savez des vecteurs pour implémenter cette méthode
             throw new NotImplementedException();
+        }
+
+        private void TakeWeapon(WeaponType weapon)
+        {
+            this.weapon.Configure(weapon);
         }
 
         public void Use()
