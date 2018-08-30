@@ -1,6 +1,7 @@
 ﻿using Assets.Scripts.Playmode.Util.Values;
 using Playmode.Ennemy.BodyParts;
 using Playmode.Movement;
+using Playmode.Pickable;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -57,6 +58,12 @@ namespace Playmode.Ennemy.Strategies
                 IsSearching = false;
             }
         }
+
+        public virtual void PickableDetected(PickableController pickable)
+        {
+
+        }
+
         protected float GetAngleRotation(Vector3 targetPosition)
         {
             Vector3 currentPosition = mover.transform.position;

@@ -1,4 +1,5 @@
-﻿using System.Numerics;
+﻿using Playmode.Pickable;
+using System.Numerics;
 using UnityEngine;
 
 namespace Playmode.Ennemy.Strategies
@@ -7,7 +8,9 @@ namespace Playmode.Ennemy.Strategies
     {
       
         void Act();
-        void UpdateTarget(GameObject target);       
+        void UpdateTarget(GameObject target);
+
+        void PickableDetected(PickableController pickable)
     }
 
     public enum EnnemyStrategy
