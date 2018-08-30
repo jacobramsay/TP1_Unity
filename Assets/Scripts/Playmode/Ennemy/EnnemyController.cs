@@ -30,6 +30,7 @@ namespace Playmode.Ennemy
         private PickableSensor pickableSensor;
         private EnnemySensor ennemySensor;
         private HitSensor hitSensor;
+        private BonusSensor bonusSensor;
         private HandController handController;
 
         private EnnemyStrategy strategyType;
@@ -76,6 +77,7 @@ namespace Playmode.Ennemy
             ennemySensor = rootTransform.GetComponentInChildren<EnnemySensor>();
             pickableSensor = rootTransform.GetComponentInChildren<PickableSensor>();
             hitSensor = rootTransform.GetComponentInChildren<HitSensor>();
+            bonusSensor = rootTransform.GetComponentInChildren<BonusSensor>();
             handController = hand.GetComponent<HandController>();
 
             
@@ -99,6 +101,8 @@ namespace Playmode.Ennemy
             pickableSensor.OnPickableSeen += OnPickableSeen;
             pickableSensor.OnPickableSightLost += OnPickableSightLost;
             hitSensor.OnHit += OnHit;
+            bonusSensor.OnHeal += OnHeal;
+            bonusSensor.OnNewWeapon += OnNewWeapon;
             health.OnDeath += OnDeath;
         }
 
@@ -114,6 +118,8 @@ namespace Playmode.Ennemy
             pickableSensor.OnPickableSeen -= OnPickableSeen;
             pickableSensor.OnPickableSightLost -= OnPickableSightLost;
             hitSensor.OnHit -= OnHit;
+            bonusSensor.OnHeal -= OnHeal;
+            bonusSensor.OnNewWeapon -= OnNewWeapon;
             health.OnDeath -= OnDeath;
         }
 
@@ -152,7 +158,10 @@ namespace Playmode.Ennemy
 
             health.Hit(hitPoints);
         }
-
+        private void OnNewWeapon(WeaponType weaponType)
+        {           
+            handController.TakeWeapon(weaponType);
+        }
         private void OnDeath()
         {
             //Debug.Log("Yaaaaarggg....!! I died....GG.");
@@ -177,12 +186,7 @@ namespace Playmode.Ennemy
         }
         private void OnPickableSightLost(PickableController pickable)
         {
-            Debug.Log("I've lost sight of an pickable...Yikes!!!");
-        }
-
-        public void NewWeapon(WeaponType type)
-        {
-            hand.GetComponent<WeaponController>().Configure(type);
-        }
+           // Debug.Log("I've lost sight of an pickable...Yikes!!!");
+        }      
     }
 }

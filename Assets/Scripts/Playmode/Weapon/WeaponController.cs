@@ -22,31 +22,31 @@ namespace Playmode.Weapon
             type = WeaponType.Normal;
         }
 
-        public void Configure( WeaponType type)
+        public void Configure( WeaponType weaponType)
         {
-            switch (this.type)
+            switch (weaponType)
             {
                 case WeaponType.Uzi:
                    // GetComponent<SpriteRenderer>().sprite = UziSprite;
-                   if(this.type == type)
+                   if(type == weaponType)
                     {
                         fireDelayInSeconds = fireDelayInSeconds / 2;
                     }
                    else
                     {
-                        this.type = type;
+                        type = weaponType;
                         fireDelayInSeconds = 1f;
                     }
                     break;
                 case WeaponType.Shotgun:
                     // GetComponent<SpriteRenderer>().sprite = ShotgunSprite;
-                    if (this.type == type)
+                    if (type == weaponType)
                     {
                         weaponDamage += weaponDamage / 2;
                     }
                     else
                     {
-                        this.type =type;
+                        type = weaponType;
                         fireDelayInSeconds = 5f;
                     }
                     break;

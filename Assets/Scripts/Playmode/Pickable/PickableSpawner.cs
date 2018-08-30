@@ -54,10 +54,7 @@ namespace Playmode.Pickable
             var rdmPickableTypeIndex = UnityEngine.Random.Range(0, PickableTypes.Length);
             var pickableTypeProvider = PickableTypes[rdmPickableTypeIndex];           
             SpawnPickable(transform.position,
-                    pickableTypeProvider);
-
-            Debug.Log(rdmPickableTypeIndex);
-            Debug.Log(pickableTypeProvider);
+                    pickableTypeProvider);            
         }
         
         private void SpawnPickable(Vector3 position, PickableType type)

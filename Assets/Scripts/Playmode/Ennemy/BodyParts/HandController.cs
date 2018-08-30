@@ -42,9 +42,9 @@ namespace Playmode.Ennemy.BodyParts
             throw new NotImplementedException();
         }
 
-        private void TakeWeapon(WeaponType weapon)
+        public void TakeWeapon(WeaponType weaponType)
         {
-            this.weapon.Configure(weapon);
+            weapon.Configure(weaponType);
         }
 
         public void Use()

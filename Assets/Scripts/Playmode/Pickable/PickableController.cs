@@ -13,8 +13,7 @@ namespace Playmode.Pickable
     {
         [Header("Type Images")] [SerializeField] private Sprite MedicalKitSprite;
         [SerializeField] private Sprite UziSprite;
-        [SerializeField] private Sprite ShotgunSprite;
-        [SerializeField] private int MedicalKitHealthPoints = 10;
+        [SerializeField] private Sprite ShotgunSprite;       
         private EnnemyPickableSensor enemySensor;
         private PickableSpawner pickableSpawner;
         private PickableType type;
