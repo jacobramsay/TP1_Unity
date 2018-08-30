@@ -142,7 +142,10 @@ namespace Playmode.Ennemy
                     break;
             }
         }
-
+        private void OnHeal(int healPoints)
+        {
+            health.Heal(healPoints);
+        }
         private void OnHit(int hitPoints)
         {
            // Debug.Log("OW, I'm hurt! I'm really much hurt!!!");

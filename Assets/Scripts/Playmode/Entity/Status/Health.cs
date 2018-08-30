@@ -32,7 +32,10 @@ namespace Playmode.Entity.Status
             if (healthPoints < 0)
                 throw new ArgumentException("HealthPoints can't be lower than 0.");
         }
-
+        public void Heal(int healPoints)
+        {
+            HealthPoints += healPoints;
+        }
         public void Hit(int hitPoints)
         {
             HealthPoints -= hitPoints;

@@ -6,6 +6,7 @@ TagManager:
   tags:
   - MainController
   - Enemy
+  - Pickable
   layers:
   - Default
   - TransparentFX
