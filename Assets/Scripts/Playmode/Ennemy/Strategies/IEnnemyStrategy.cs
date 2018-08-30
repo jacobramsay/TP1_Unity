@@ -10,7 +10,7 @@ namespace Playmode.Ennemy.Strategies
         void Act();
         void UpdateTarget(GameObject target);
 
-        void PickableDetected(PickableController pickable)
+        void PickableDetected(PickableController pickable);
     }
 
     public enum EnnemyStrategy

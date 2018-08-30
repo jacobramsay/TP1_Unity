@@ -112,7 +112,6 @@ GameObject:
   - component: {fileID: 58758988853505006}
   - component: {fileID: 114842752972343190}
   - component: {fileID: 114136075856512652}
-  - component: {fileID: 114778802163452960}
   m_Layer: 0
   m_Name: Body
   m_TagString: Enemy
@@ -380,17 +379,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   healthPoints: 100
---- !u!114 &114778802163452960
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1880469799408478}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8b87ea6b92fe3f945b95227079ea11aa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114785109227199278
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -15,7 +15,7 @@ namespace Playmode.Entity.Senses
 
         private void InitializeComponent()
         {
-            pickable = transform.root.GetComponentInChildren<PickableController>();
+            pickable = GetComponent<PickableController>();
         }
 
         private void OnTriggerEnter2D(Collider2D other)

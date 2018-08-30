@@ -49,7 +49,7 @@ namespace Playmode.Ennemy.Strategies
             IsSearching = true;
         }
 
-        public void UpdateTarget(GameObject target)
+        public virtual void UpdateTarget(GameObject target)
         {
             if (!IsChasing)
             {
@@ -61,7 +61,6 @@ namespace Playmode.Ennemy.Strategies
 
         public virtual void PickableDetected(PickableController pickable)
         {
-
         }
 
         protected float GetAngleRotation(Vector3 targetPosition)
