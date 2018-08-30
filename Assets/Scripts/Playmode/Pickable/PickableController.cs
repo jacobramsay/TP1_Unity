@@ -34,6 +34,10 @@ namespace Playmode.Pickable
             }
         }
 
+        public PickableType GetPickableType()
+        {
+            return type;
+        }
         private void Awake()
         {
             ValidateSerialisedFields();
