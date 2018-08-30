@@ -89,11 +89,11 @@ namespace Playmode.Pickable
                     break;
                 case PickableType.Uzi:
                     // weaponController.Configure(WeaponType.Uzi);
-                    ennemyController.NewWeapon(WeaponType.Uzi);
+                   // ennemyController.NewWeapon(WeaponType.Uzi);
                     break;
                 case PickableType.Shotgun:
                     //  weaponController.Configure(WeaponType.Shotgun);
-                    ennemyController.NewWeapon(WeaponType.Shotgun);
+                   // ennemyController.NewWeapon(WeaponType.Shotgun);
 
                     break;
             }
