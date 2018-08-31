@@ -78,10 +78,7 @@ namespace Playmode.Ennemy
             pickableSensor = rootTransform.GetComponentInChildren<PickableSensor>();
             hitSensor = rootTransform.GetComponentInChildren<HitSensor>();
             bonusSensor = rootTransform.GetComponentInChildren<BonusSensor>();
-            handController = hand.GetComponent<HandController>();
-
-            
-            strategy = new TurnAndShootStragegy(mover, handController);
+            handController = hand.GetComponent<HandController>();                       
         }
 
         private void CreateStartingWeapon()
@@ -135,7 +132,7 @@ namespace Playmode.Ennemy
                     typeSign.GetComponent<SpriteRenderer>().sprite = carefulSprite;
                     break;
                 case EnnemyStrategy.Cowboy:
-                    this.strategy = new CowboyStrategy(mover, handController);
+                    this.strategy = new CowboyStrategy(mover, handController,false);
                     typeSign.GetComponent<SpriteRenderer>().sprite = cowboySprite;
                     break;
                 case EnnemyStrategy.Camper:

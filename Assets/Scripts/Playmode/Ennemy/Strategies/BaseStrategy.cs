@@ -20,13 +20,16 @@ namespace Playmode.Ennemy.Strategies
         protected float rotationAngle;
         protected Vector3 moverDirection;
         public bool IsChasing { get; set; }
-        public bool IsSearching { get; set; }        
+        public bool IsSearching { get; set; }
+        private IEnnemyStrategy ennemyStrategy;
         public BaseStrategy(Mover mover, HandController handController)
         {
             this.mover = mover;
             this.handController = handController;
             IsChasing = false;
             IsSearching = true;
+
+            ennemyStrategy = mover.transform.GetComponent<IEnnemyStrategy>();
         }
 
         public virtual void  Act()
@@ -105,6 +108,10 @@ namespace Playmode.Ennemy.Strategies
         {
             float distance = GetDistanceBetweenTargetPosition(target);
             return distance <= range;
-        }        
+        }    
+        protected void AssignNewStrategy(IEnnemyStrategy strategy)
+        {
+            ennemyStrategy = strategy;
+        }
     }
 }

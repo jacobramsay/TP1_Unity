@@ -10,61 +10,19 @@ namespace Playmode.Ennemy.Strategies
     public class CarefulStrategy : BaseStrategy
     {
         Health health;
-
+        
         public CarefulStrategy(Mover mover, HandController handController) : base(mover, handController)
         {
-            health = mover.transform.GetComponent<Health>();
-            range *= 2;
+            health = mover.transform.GetComponent<Health>();            
+            range *= 2;           
         }
         public override void Act()
         {
-            if (IsChasing)
+            ActCareful();       
+            if(HasLotOfHealth())
             {
-                if (target != null && target.activeSelf)
-                {
-                    moverDirection = GetDirectionToTarget();
-                    rotationAngle = GetAngleRotation(target.transform.position);
-                    if (Mathf.Abs(rotationAngle) > 0)
-                    {
-                        mover.Rotate(rotationAngle);
-                    }
-                    if(target.tag == Tags.Enemy)
-                    {
-                        if (IsCloseEnoughToTargetPosition(target.transform.position))
-                        {
-                            handController.Use();
-                        }
-                        else
-                        {
-                            mover.Move(Vector3.up);
-                        }
-                    }
-                    else
-                    {
-                        mover.Move(Vector3.up);
-                    }
-                    if(NeedsMedicalKit() && target.tag == Tags.Enemy)
-                    {
-                        StopChasing();
-                        StartSearching();
-                    }
-                }              
-                else
-                {
-                    StopChasing();
-                    StartSearching();
-                }                
+                BecomeCowboy();
             }
-            else if (IsSearching)
-            {
-                moverDirection = GetRandomDirection();
-                rotationAngle = GetAngleRotation(moverDirection);
-                if (rotationAngle > 2 || rotationAngle < -2)
-                {
-                    mover.Rotate(rotationAngle);
-                }
-                mover.Move(Vector3.up);
-            }            
         }
         public override void PickableDetected(PickableController pickable)
         {
@@ -88,6 +46,64 @@ namespace Playmode.Ennemy.Strategies
         private bool NeedsMedicalKit()
         {            
             return health.HealthPoints <= 25;
-        }        
+        }
+        private bool HasLotOfHealth()
+        {
+            return health.HealthPoints >= 100;
+        }
+        private void ActCareful()
+        {
+            if (IsChasing)
+            {
+                if (target != null && target.activeSelf)
+                {
+                    moverDirection = GetDirectionToTarget();
+                    rotationAngle = GetAngleRotation(target.transform.position);
+                    if (Mathf.Abs(rotationAngle) > 0)
+                    {
+                        mover.Rotate(rotationAngle);
+                    }
+                    if (target.tag == Tags.Enemy)
+                    {
+                        if (IsCloseEnoughToTargetPosition(target.transform.position))
+                        {
+                            handController.Use();
+                        }
+                        else
+                        {
+                            mover.Move(Vector3.up);
+                        }
+                    }
+                    else
+                    {
+                        mover.Move(Vector3.up);
+                    }
+                    if (NeedsMedicalKit() && target.tag == Tags.Enemy)
+                    {
+                        StopChasing();
+                        StartSearching();
+                    }
+                }
+                else
+                {
+                    StopChasing();
+                    StartSearching();
+                }
+            }
+            else if (IsSearching)
+            {
+                moverDirection = GetRandomDirection();
+                rotationAngle = GetAngleRotation(moverDirection);
+                if (rotationAngle > 2 || rotationAngle < -2)
+                {
+                    mover.Rotate(rotationAngle);
+                }
+                mover.Move(Vector3.up);
+            }
+        }
+        private void BecomeCowboy()
+        {
+            AssignNewStrategy(new CowboyStrategy(mover, handController, true));
+        }
     }
 }
