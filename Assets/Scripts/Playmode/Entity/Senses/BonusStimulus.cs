@@ -8,7 +8,7 @@ namespace Playmode.Entity.Senses
 {
     public class BonusStimulus : MonoBehaviour
     {
-        [Header("Behaviour")] [SerializeField] private int healPoints = 10;
+        [Header("Behaviour")] [SerializeField] private int healPoints = 30;
         private PickableController pickable;
         private void Awake()
         {

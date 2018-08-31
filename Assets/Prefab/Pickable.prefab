@@ -26,6 +26,7 @@ GameObject:
   - component: {fileID: 114103504295715064}
   - component: {fileID: 114327151885067494}
   - component: {fileID: 114981196380452992}
+  - component: {fileID: 114414769369060492}
   m_Layer: 0
   m_Name: Pickable
   m_TagString: Pickable
@@ -94,6 +95,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   healPoints: 10
+--- !u!114 &114414769369060492
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1974105292275166}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 896131d0d06d48d08bcbf4d0a7e56fc1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114656504321035682
 MonoBehaviour:
   m_ObjectHideFlags: 1
