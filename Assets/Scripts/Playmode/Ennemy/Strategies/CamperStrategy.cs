@@ -2,6 +2,8 @@
 using Playmode.Entity.Status;
 using Playmode.Movement;
 using Playmode.Pickable;
+using System;
+using System.Collections;
 using UnityEngine;
 
 namespace Playmode.Ennemy.Strategies
@@ -9,6 +11,8 @@ namespace Playmode.Ennemy.Strategies
     public class CamperStrategy : BaseStrategy
     {
         [SerializeField] private float rangeMedic = 3f;
+        [SerializeField] private float minSpawnDelayInSeconds = 3f;
+        [SerializeField] private float maxSpawnDelayInSeconds = 6f;
         private bool IsChasingGun;
         private bool IsChasingMedic;
         private GameObject targetEnnemy;
@@ -19,6 +23,7 @@ namespace Playmode.Ennemy.Strategies
         {
             health = mover.transform.GetComponent<Health>();
         }
+
         public override void Act()
         {
             if(IsChasingGun)
@@ -67,8 +72,15 @@ namespace Playmode.Ennemy.Strategies
                         mover.Move(Vector3.up);
                     }
 
+                    if(targetEnnemy==null)
+                    {
+                        mover.ActivateScanTarget();
+                        Debug.Log("Je bouge mon champ de vision");
+                    }
+
                     else if(targetEnnemy != null)
                     {
+                        
                         moverDirection = GetDirectionToTargetEnnemy();
                         rotationAngle = GetAngleRotation(targetEnnemy.transform.position);
                         if (Mathf.Abs(rotationAngle) > 0)
