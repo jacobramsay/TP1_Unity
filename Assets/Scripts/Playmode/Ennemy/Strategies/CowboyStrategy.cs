@@ -1,4 +1,5 @@
 ﻿using Playmode.Ennemy.BodyParts;
+using Playmode.Entity.Status;
 using Playmode.Movement;
 using Playmode.Pickable;
 using UnityEngine;
@@ -8,14 +9,16 @@ namespace Playmode.Ennemy.Strategies
     public class CowboyStrategy : BaseStrategy
     {
         private bool IsChasingPickable;
-
-        public CowboyStrategy(Mover mover, HandController handController) : base(mover, handController)
+        private bool isCareful;
+        Health health;
+        public CowboyStrategy(Mover mover, HandController handController,bool isCareful) : base(mover, handController)
         {
-
+            this.isCareful = isCareful;
+            health = mover.transform.GetComponent<Health>();
         }
 
         public override void Act()
-        {
+        {           
             if(IsChasingPickable)
             {
                 if (target != null && target.activeSelf)
@@ -70,6 +73,10 @@ namespace Playmode.Ennemy.Strategies
                 }
                 mover.Move(Vector3.up);
             }
+            if( isCareful && HasNotEnoughHealthForCowboy())
+            {
+                BecomeCareful();
+            }
         }
 
         public override void UpdateTarget(GameObject target)
@@ -103,6 +110,14 @@ namespace Playmode.Ennemy.Strategies
         private void StopChasingPickable()
         {
             IsChasingPickable = false;
+        }
+        private bool HasNotEnoughHealthForCowboy()
+        {
+            return health.HealthPoints < 100;
+        }
+        private void BecomeCareful()
+        {
+            AssignNewStrategy(new CarefulStrategy(mover, handController));
         }
     }
 }

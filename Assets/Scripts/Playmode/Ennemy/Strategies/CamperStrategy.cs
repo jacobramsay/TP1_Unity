@@ -2,6 +2,9 @@
 using Playmode.Entity.Status;
 using Playmode.Movement;
 using Playmode.Pickable;
+using Playmode.Util.Values;
+using System;
+using System.Collections;
 using UnityEngine;
 
 namespace Playmode.Ennemy.Strategies
@@ -9,6 +12,9 @@ namespace Playmode.Ennemy.Strategies
     public class CamperStrategy : BaseStrategy
     {
         [SerializeField] private float rangeMedic = 3f;
+        [SerializeField] private float minSpawnDelayInSeconds = 3f;
+        [SerializeField] private float maxSpawnDelayInSeconds = 6f;
+        [SerializeField] private float speedChasingMedic = 15f;
         private bool IsChasingGun;
         private bool IsChasingMedic;
         private GameObject targetEnnemy;
@@ -19,6 +25,7 @@ namespace Playmode.Ennemy.Strategies
         {
             health = mover.transform.GetComponent<Health>();
         }
+
         public override void Act()
         {
             if(IsChasingGun)
@@ -53,7 +60,7 @@ namespace Playmode.Ennemy.Strategies
                         {
                             mover.Rotate(rotationAngle);
                         }
-                        mover.Move(Vector3.up);
+                        mover.Move(Vector3.up*speedChasingMedic);
                     }
 
                     if(health.HealthPoints<=25)
@@ -64,11 +71,17 @@ namespace Playmode.Ennemy.Strategies
                         {
                             mover.Rotate(rotationAngle);
                         }
-                        mover.Move(Vector3.up);
+                        mover.Move(Vector3.up*speedChasingMedic);
                     }
 
-                    else if(targetEnnemy != null)
+                    if(targetEnnemy==null)
                     {
+                        mover.ActivateScanTarget();
+                    }
+
+                    else if(targetEnnemy != null && targetEnnemy.CompareTag(Tags.Enemy))
+                    {
+                        
                         moverDirection = GetDirectionToTargetEnnemy();
                         rotationAngle = GetAngleRotation(targetEnnemy.transform.position);
                         if (Mathf.Abs(rotationAngle) > 0)

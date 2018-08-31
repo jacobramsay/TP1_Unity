@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using UnityEngine;
 
 namespace Playmode.Movement
@@ -10,6 +11,43 @@ namespace Playmode.Movement
         
         [SerializeField] protected float speed = 1.75f;
         [SerializeField] protected float rotateSpeed = 90f;
+        [SerializeField] private float minScanDelayInSeconds = 1f;
+        [SerializeField] private float maxScanDelayInSeconds = 3f;
+
+        public void ActivateScanTarget()
+        {
+            StartCoroutine(SpawnPrefabsRoutine());
+            Debug.Log("Mon champ de vision a changer");
+        }
+
+        private void OnEnable()
+        {
+            ActivateScanTarget();
+        }
+
+        private void OnDisable()
+        {
+            StopAllCoroutines();
+        }
+
+        private IEnumerator SpawnPrefabsRoutine()
+        {
+            var rdmSpawnDelayInSeconds = UnityEngine.Random.Range(minScanDelayInSeconds, maxScanDelayInSeconds);
+            yield return new WaitForSeconds(rdmSpawnDelayInSeconds);
+            RandomAngleRotation();
+        }
+
+        private void RandomAngleRotation()
+        {
+            var rdmAngle = UnityEngine.Random.Range(10f, 500f);
+            RotateCamper(rdmAngle);
+        }
+
+        private void RotateCamper(float angle)
+        {
+            Rotate(angle);
+        }
+
 
         protected void Awake()
         {
