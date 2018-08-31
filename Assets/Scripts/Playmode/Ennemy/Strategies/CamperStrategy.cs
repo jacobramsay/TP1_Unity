@@ -2,6 +2,7 @@
 using Playmode.Entity.Status;
 using Playmode.Movement;
 using Playmode.Pickable;
+using Playmode.Util.Values;
 using System;
 using System.Collections;
 using UnityEngine;
@@ -13,6 +14,7 @@ namespace Playmode.Ennemy.Strategies
         [SerializeField] private float rangeMedic = 3f;
         [SerializeField] private float minSpawnDelayInSeconds = 3f;
         [SerializeField] private float maxSpawnDelayInSeconds = 6f;
+        [SerializeField] private float speedChasingMedic = 15f;
         private bool IsChasingGun;
         private bool IsChasingMedic;
         private GameObject targetEnnemy;
@@ -58,7 +60,7 @@ namespace Playmode.Ennemy.Strategies
                         {
                             mover.Rotate(rotationAngle);
                         }
-                        mover.Move(Vector3.up);
+                        mover.Move(Vector3.up*speedChasingMedic);
                     }
 
                     if(health.HealthPoints<=25)
@@ -69,16 +71,15 @@ namespace Playmode.Ennemy.Strategies
                         {
                             mover.Rotate(rotationAngle);
                         }
-                        mover.Move(Vector3.up);
+                        mover.Move(Vector3.up*speedChasingMedic);
                     }
 
                     if(targetEnnemy==null)
                     {
                         mover.ActivateScanTarget();
-                        Debug.Log("Je bouge mon champ de vision");
                     }
 
-                    else if(targetEnnemy != null)
+                    else if(targetEnnemy != null && targetEnnemy.CompareTag(Tags.Enemy))
                     {
                         
                         moverDirection = GetDirectionToTargetEnnemy();
