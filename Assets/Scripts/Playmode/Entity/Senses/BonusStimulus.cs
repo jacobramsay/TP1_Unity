@@ -9,6 +9,7 @@ namespace Playmode.Entity.Senses
     public class BonusStimulus : MonoBehaviour
     {
         [Header("Behaviour")] [SerializeField] private int healPoints = 30;
+        [SerializeField] private float timeInvincible = 5f;
         private PickableController pickable;
         private void Awake()
         {
@@ -30,9 +31,9 @@ namespace Playmode.Entity.Senses
         {
             if (other.tag == Tags.Enemy)
             {
-                switch(pickable.GetPickableType())
+                switch (pickable.GetPickableType())
                 {
-                    case (PickableType.MedicalKit):                       
+                    case (PickableType.MedicalKit):
                         other.GetComponent<Entity.Senses.BonusSensor>()?.Heal(healPoints);
                         break;
                     case (PickableType.Shotgun):
@@ -41,7 +42,10 @@ namespace Playmode.Entity.Senses
                     case (PickableType.Uzi):
                         other.GetComponent<Entity.Senses.BonusSensor>()?.NewWeapon(WeaponType.Uzi);
                         break;
-                }               
+                    case (PickableType.Invincible):
+                        other.GetComponent<Entity.Senses.BonusSensor>()?.Invincible();
+                        break;
+                }
             }
         }
     }

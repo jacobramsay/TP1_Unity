@@ -4,7 +4,8 @@
     {
         MedicalKit,
         Shotgun,
-        Uzi
+        Uzi,
+        Invincible
     }
 }
 
