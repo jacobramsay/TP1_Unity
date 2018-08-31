@@ -73,7 +73,7 @@ namespace Playmode.Ennemy.Strategies
                 }
                 mover.Move(Vector3.up);
             }
-            if(HasNotEnoughHealthForCowboy())
+            if( isCareful && HasNotEnoughHealthForCowboy())
             {
                 BecomeCareful();
             }
