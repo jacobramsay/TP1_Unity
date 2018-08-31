@@ -13,7 +13,8 @@ namespace Playmode.Pickable
             {
             PickableType.MedicalKit,
             PickableType.Shotgun,
-            PickableType.Uzi
+            PickableType.Uzi,
+            PickableType.Invincible
             
         };
 

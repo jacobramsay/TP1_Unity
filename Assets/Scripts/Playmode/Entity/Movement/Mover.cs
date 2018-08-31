@@ -8,21 +8,27 @@ namespace Playmode.Movement
     {
         public static readonly Vector3 Foward = Vector3.up;
         public const float Clockwise = 1f;
-        
+
         [SerializeField] protected float speed = 1.75f;
         [SerializeField] protected float rotateSpeed = 90f;
         [SerializeField] private float minScanDelayInSeconds = 1f;
         [SerializeField] private float maxScanDelayInSeconds = 3f;
+        [SerializeField] private float currCountdownValue;
 
         public void ActivateScanTarget()
         {
             StartCoroutine(SpawnPrefabsRoutine());
-            Debug.Log("Mon champ de vision a changer");
+        }
+
+        public void ActivateCountdown()
+        {
+            StartCoroutine(StartCountdown(5f));
         }
 
         private void OnEnable()
         {
             ActivateScanTarget();
+            ActivateCountdown();
         }
 
         private void OnDisable()
@@ -35,6 +41,16 @@ namespace Playmode.Movement
             var rdmSpawnDelayInSeconds = UnityEngine.Random.Range(minScanDelayInSeconds, maxScanDelayInSeconds);
             yield return new WaitForSeconds(rdmSpawnDelayInSeconds);
             RandomAngleRotation();
+        }
+
+        private IEnumerator StartCountdown(float countdownValue = 5)
+        {
+            currCountdownValue = countdownValue;
+            while (currCountdownValue > 0)
+            {
+                yield return new WaitForSeconds(1.0f);
+                currCountdownValue--;
+            }
         }
 
         private void RandomAngleRotation()

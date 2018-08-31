@@ -103,6 +103,7 @@ namespace Playmode.Ennemy
             hitSensor.OnHit += OnHit;
             bonusSensor.OnHeal += OnHeal;
             bonusSensor.OnNewWeapon += OnNewWeapon;
+            bonusSensor.OnInvincible += OnInvincible;
             health.OnDeath += OnDeath;
         }
 
@@ -120,6 +121,7 @@ namespace Playmode.Ennemy
             hitSensor.OnHit -= OnHit;
             bonusSensor.OnHeal -= OnHeal;
             bonusSensor.OnNewWeapon -= OnNewWeapon;
+            bonusSensor.OnInvincible -= OnInvincible;
             health.OnDeath -= OnDeath;
         }
 
@@ -161,6 +163,11 @@ namespace Playmode.Ennemy
         private void OnNewWeapon(WeaponType weaponType)
         {           
             handController.TakeWeapon(weaponType);
+        }
+        private void OnInvincible()
+        {
+            mover.ActivateCountdown();
+            hitSensor.OnHit -= OnHit;
         }
         private void OnDeath()
         {
