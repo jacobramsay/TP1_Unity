@@ -35,7 +35,6 @@ namespace Playmode.Ennemy
         private BonusSensor bonusSensor;
         private HandController handController;
         private EnnemyDiedEventChannel ennemyDiedEventChannel;
-
         private EnnemyStrategy strategyType;
         private IEnnemyStrategy strategy;
 
@@ -73,6 +72,13 @@ namespace Playmode.Ennemy
                 throw new ArgumentException("StartingWeapon prefab must be provided.");
         }
 
+        private IEnumerator InvicibilityRoutine(float countdownValue)
+        {
+            hitSensor.OnHit -= OnHit;
+            yield return new WaitForSeconds(countdownValue);
+            hitSensor.OnHit += OnHit;
+        }
+
         private void InitializeComponent()
         {
             health = GetComponent<Health>();
@@ -94,6 +100,11 @@ namespace Playmode.Ennemy
                 Vector3.zero,
                 Quaternion.identity
             ));
+        }
+
+        public void ActivateCountdown()
+        {
+            StartCoroutine(InvicibilityRoutine(5.0f));
         }
 
         private void OnEnable()
@@ -172,18 +183,7 @@ namespace Playmode.Ennemy
         }
         private void OnInvincible()
         {
-            mover.ActivateCountdown();
-            if(mover.isInvincible==true)
-            {
-                hitSensor.OnHit -= OnHit;
-                Debug.Log("Je suis invincible ouiiiiii");
-            }
-            else if(mover.isInvincible==false)
-            {
-                hitSensor.OnHit += OnHit;
-                Debug.Log("Je ne suis pu invincible nooooooon");
-            }
-            
+            ActivateCountdown();           
         }
         private void OnDeath()
         {
