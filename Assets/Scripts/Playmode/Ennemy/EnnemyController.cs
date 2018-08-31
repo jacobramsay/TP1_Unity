@@ -167,7 +167,17 @@ namespace Playmode.Ennemy
         private void OnInvincible()
         {
             mover.ActivateCountdown();
-            hitSensor.OnHit -= OnHit;
+            if(mover.isInvincible==true)
+            {
+                hitSensor.OnHit -= OnHit;
+                Debug.Log("Je suis invincible ouiiiiii");
+            }
+            else if(mover.isInvincible==false)
+            {
+                hitSensor.OnHit += OnHit;
+                Debug.Log("Je ne suis pu invincible nooooooon");
+            }
+            
         }
         private void OnDeath()
         {

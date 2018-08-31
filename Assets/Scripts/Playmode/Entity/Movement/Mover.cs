@@ -14,6 +14,7 @@ namespace Playmode.Movement
         [SerializeField] private float minScanDelayInSeconds = 1f;
         [SerializeField] private float maxScanDelayInSeconds = 3f;
         [SerializeField] private float currCountdownValue;
+        public bool isInvincible;
 
         public void ActivateScanTarget()
         {
@@ -22,7 +23,7 @@ namespace Playmode.Movement
 
         public void ActivateCountdown()
         {
-            StartCoroutine(StartCountdown(5f));
+            StartCoroutine(InvicibilityRoutine(5));
         }
 
         private void OnEnable()
@@ -43,14 +44,11 @@ namespace Playmode.Movement
             RandomAngleRotation();
         }
 
-        private IEnumerator StartCountdown(float countdownValue = 5)
+        private IEnumerator InvicibilityRoutine(float countdownValue = 5)
         {
-            currCountdownValue = countdownValue;
-            while (currCountdownValue > 0)
-            {
-                yield return new WaitForSeconds(1.0f);
-                currCountdownValue--;
-            }
+            isInvincible = true;
+            yield return new WaitForSeconds(countdownValue);
+            isInvincible = false;
         }
 
         private void RandomAngleRotation()
