@@ -7,6 +7,7 @@ TagManager:
   - MainController
   - Enemy
   - Pickable
+  - EnnemySpawner
   layers:
   - Default
   - TransparentFX
@@ -16,8 +17,8 @@ TagManager:
   - UI
   - 
   - 
-  - 
-  - 
+  - BackGround
+  - GameElements
   - 
   - 
   - 
@@ -43,4 +44,10 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: BackGround
+    uniqueID: 561416631
+    locked: 0
+  - name: GameElements
+    uniqueID: 3928501977
     locked: 0

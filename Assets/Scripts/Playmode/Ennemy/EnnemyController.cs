@@ -7,6 +7,7 @@ using Playmode.Entity.Senses;
 using Playmode.Entity.Status;
 using Playmode.Movement;
 using Playmode.Pickable;
+using Playmode.Util.Values;
 using Playmode.Weapon;
 using UnityEngine;
 
@@ -32,6 +33,7 @@ namespace Playmode.Ennemy
         private HitSensor hitSensor;
         private BonusSensor bonusSensor;
         private HandController handController;
+        private EnnemyDiedEventChannel ennemyDiedEventChannel;
 
         private EnnemyStrategy strategyType;
         private IEnnemyStrategy strategy;
@@ -41,6 +43,7 @@ namespace Playmode.Ennemy
             ValidateSerialisedFields();
             InitializeComponent();
             CreateStartingWeapon();
+            ennemyDiedEventChannel = GameObject.FindWithTag(Tags.GameController).GetComponent<EnnemyDiedEventChannel>();
 
 
         }
@@ -165,7 +168,7 @@ namespace Playmode.Ennemy
         private void OnDeath()
         {
             //Debug.Log("Yaaaaarggg....!! I died....GG.");
-
+            ennemyDiedEventChannel.Publish();
             destroyer.Destroy();
         }
 
