@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using Assets.Scripts.Playmode.Weapon;
 using Playmode.Ennemy.BodyParts;
 using Playmode.Ennemy.Strategies;
@@ -38,6 +39,8 @@ namespace Playmode.Ennemy
         private EnnemyStrategy strategyType;
         private IEnnemyStrategy strategy;
 
+        private Color normalColor;
+        private Color collideColor;
         private void Awake()
         {
             ValidateSerialisedFields();
@@ -130,6 +133,8 @@ namespace Playmode.Ennemy
             body.GetComponent<SpriteRenderer>().color = color;
             sight.GetComponent<SpriteRenderer>().color = color;
             strategyType = strategy;
+            normalColor = color;           
+            collideColor = Color.red;
             switch (strategyType)
             {
                 case EnnemyStrategy.Careful:
@@ -159,6 +164,7 @@ namespace Playmode.Ennemy
            // Debug.Log("OW, I'm hurt! I'm really much hurt!!!");
 
             health.Hit(hitPoints);
+            StartCoroutine(Flasher());
         }
         private void OnNewWeapon(WeaponType weaponType)
         {           
@@ -194,6 +200,13 @@ namespace Playmode.Ennemy
         private void OnPickableSightLost(PickableController pickable)
         {
            // Debug.Log("I've lost sight of an pickable...Yikes!!!");
-        }      
+        }
+        private IEnumerator Flasher()
+        {
+            
+                body.GetComponent<SpriteRenderer>().color = collideColor;
+                yield return new WaitForSeconds(.1f);
+                body.GetComponent<SpriteRenderer>().color = normalColor;                                        
+        }
     }
 }
