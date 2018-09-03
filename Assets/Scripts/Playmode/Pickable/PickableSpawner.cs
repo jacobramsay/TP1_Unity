@@ -1,5 +1,6 @@
 ﻿
 using Playmode.Util.Collections;
+using Playmode.Util.Values;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -8,6 +9,7 @@ namespace Playmode.Pickable
 {
     public class PickableSpawner : MonoBehaviour
     {
+        private GameController gameController;
 
         private static readonly PickableType[] PickableTypes =
             {
@@ -37,6 +39,7 @@ namespace Playmode.Pickable
         private void Awake()
         {
             ValidateSerialisedFields();
+            gameController = GameObject.FindWithTag(Tags.GameController).GetComponent<GameController>();
         }
         private void ValidateSerialisedFields()
         {
@@ -47,7 +50,10 @@ namespace Playmode.Pickable
         {                                  
            var rdmSpawnDelayInSeconds = UnityEngine.Random.Range(minSpawnDelayInSeconds, maxSpawnDelayInSeconds);
            yield return new WaitForSeconds(rdmSpawnDelayInSeconds);
-           SpawnRandomPickable();                                                
+            if (gameController.IsGameStarted && !gameController.IsGameOver)
+            {
+                SpawnRandomPickable();
+            }                                              
         }
         private void SpawnRandomPickable()
         {

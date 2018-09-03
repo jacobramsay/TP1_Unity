@@ -42,5 +42,10 @@ namespace Playmode.Application
             yield return UnloadGameSceneRoutine();
             yield return LoadGameSceneRoutine();
         }
+
+        public void RestartGame()
+        {
+            StartCoroutine(ReloadGameSceneRoutine());
+        }
     }
 }

@@ -1,9 +1,12 @@
-﻿using System.Collections;
+﻿using Playmode.Util.Values;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class TimeUI : MonoBehaviour {
+
+    private GameController gameController;
 
     public Text timerLabel;
 
@@ -12,17 +15,21 @@ public class TimeUI : MonoBehaviour {
     private void Awake()
     {
         timerLabel = GetComponent<Text>();
+        gameController = GameObject.FindWithTag(Tags.GameController).GetComponent<GameController>();
     }
 
     void Update()
     {
-        time += Time.deltaTime;
+        if (gameController.IsGameStarted && !gameController.IsGameOver)
+        {
+            time += Time.deltaTime;
 
-        var minutes = time / 60; //Divide the guiTime by sixty to get the minutes.
-        var seconds = time % 60;//Use the euclidean division for the seconds.
-        var fraction = (time * 100) % 100;
+            var minutes = time / 60; //Divide the guiTime by sixty to get the minutes.
+            var seconds = time % 60;//Use the euclidean division for the seconds.
+            var fraction = (time * 100) % 100;
 
-        //update the label value
-        timerLabel.text = string.Format("{0:00} : {1:00} : {2:000}", minutes, seconds, fraction);
+            //update the label value
+            timerLabel.text = string.Format("{0:00} : {1:00} : {2:000}", minutes, seconds, fraction);
+        }
     }
 }

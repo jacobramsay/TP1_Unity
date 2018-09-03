@@ -25,6 +25,7 @@ namespace Playmode.Ennemy
         [SerializeField] private Sprite camperSprite;
         [Header("Behaviour")] [SerializeField] private GameObject startingWeaponPrefab;
 
+        private GameController gameController;
         private Health health;
         private Mover mover;
         private Destroyer destroyer;
@@ -38,12 +39,15 @@ namespace Playmode.Ennemy
         private EnnemyStrategy strategyType;
         private IEnnemyStrategy strategy;
 
+
         private void Awake()
         {
             ValidateSerialisedFields();
             InitializeComponent();
             CreateStartingWeapon();
+
             ennemyDiedEventChannel = GameObject.FindWithTag(Tags.GameController).GetComponent<EnnemyDiedEventChannel>();
+            gameController = GameObject.FindWithTag(Tags.GameController).GetComponent<GameController>();
 
 
         }
@@ -108,7 +112,10 @@ namespace Playmode.Ennemy
 
         private void Update()
         {
-            strategy.Act();
+            if (gameController.IsGameStarted && !gameController.IsGameOver)
+            {
+                strategy.Act();
+            }
         }
 
         private void OnDisable()
@@ -152,41 +159,41 @@ namespace Playmode.Ennemy
         {
             health.Heal(healPoints);
         }
+
         private void OnHit(int hitPoints)
         {
-           // Debug.Log("OW, I'm hurt! I'm really much hurt!!!");
-
             health.Hit(hitPoints);
         }
+
         private void OnNewWeapon(WeaponType weaponType)
         {           
             handController.TakeWeapon(weaponType);
         }
+
         private void OnDeath()
         {
-            //Debug.Log("Yaaaaarggg....!! I died....GG.");
             ennemyDiedEventChannel.Publish();
             destroyer.Destroy();
         }
 
         private void OnEnnemySeen(EnnemyController ennemy)
         {
-           strategy.UpdateTarget(ennemy.body);
-           // Debug.Log("I've seen an ennemy!! Ya so dead noob!!!");
+            strategy.UpdateTarget(ennemy.body);
         }
 
         private void OnEnnemySightLost(EnnemyController ennemy)
-        {                      
-            //Debug.Log("I've lost sight of an ennemy...Yikes!!!");
+        {    
+            
         }
 
         private void OnPickableSeen(PickableController pickable)
         {
-              strategy.PickableDetected(pickable);
+            strategy.PickableDetected(pickable);
         }
+
         private void OnPickableSightLost(PickableController pickable)
         {
-           // Debug.Log("I've lost sight of an pickable...Yikes!!!");
+
         }      
     }
 }
