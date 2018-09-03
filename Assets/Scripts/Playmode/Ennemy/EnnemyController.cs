@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using Assets.Scripts.Playmode.Weapon;
 using Playmode.Ennemy.BodyParts;
 using Playmode.Ennemy.Strategies;
@@ -35,11 +36,11 @@ namespace Playmode.Ennemy
         private BonusSensor bonusSensor;
         private HandController handController;
         private EnnemyDiedEventChannel ennemyDiedEventChannel;
-
         private EnnemyStrategy strategyType;
         private IEnnemyStrategy strategy;
 
-
+        private Color normalColor;
+        private Color collideColor;
         private void Awake()
         {
             ValidateSerialisedFields();
@@ -74,6 +75,13 @@ namespace Playmode.Ennemy
                 throw new ArgumentException("StartingWeapon prefab must be provided.");
         }
 
+        private IEnumerator InvicibilityRoutine(float countdownValue)
+        {
+            hitSensor.OnHit -= OnHit;
+            yield return new WaitForSeconds(countdownValue);
+            hitSensor.OnHit += OnHit;
+        }
+
         private void InitializeComponent()
         {
             health = GetComponent<Health>();
@@ -97,6 +105,11 @@ namespace Playmode.Ennemy
             ));
         }
 
+        public void ActivateCountdown()
+        {
+            StartCoroutine(InvicibilityRoutine(5.0f));
+        }
+
         private void OnEnable()
         {
             
@@ -107,11 +120,13 @@ namespace Playmode.Ennemy
             hitSensor.OnHit += OnHit;
             bonusSensor.OnHeal += OnHeal;
             bonusSensor.OnNewWeapon += OnNewWeapon;
+            bonusSensor.OnInvincible += OnInvincible;
             health.OnDeath += OnDeath;
         }
 
         private void Update()
         {
+
             if (gameController.IsGameStarted && !gameController.IsGameOver)
             {
                 strategy.Act();
@@ -127,6 +142,7 @@ namespace Playmode.Ennemy
             hitSensor.OnHit -= OnHit;
             bonusSensor.OnHeal -= OnHeal;
             bonusSensor.OnNewWeapon -= OnNewWeapon;
+            bonusSensor.OnInvincible -= OnInvincible;
             health.OnDeath -= OnDeath;
         }
 
@@ -135,6 +151,8 @@ namespace Playmode.Ennemy
             body.GetComponent<SpriteRenderer>().color = color;
             sight.GetComponent<SpriteRenderer>().color = color;
             strategyType = strategy;
+            normalColor = color;           
+            collideColor = Color.red;
             switch (strategyType)
             {
                 case EnnemyStrategy.Careful:
@@ -162,38 +180,56 @@ namespace Playmode.Ennemy
 
         private void OnHit(int hitPoints)
         {
+
             health.Hit(hitPoints);
+            StartCoroutine(Flasher());
         }
 
         private void OnNewWeapon(WeaponType weaponType)
         {           
             handController.TakeWeapon(weaponType);
         }
-
+        private void OnInvincible()
+        {
+            ActivateCountdown();           
+        }
         private void OnDeath()
         {
+
             ennemyDiedEventChannel.Publish();
             destroyer.Destroy();
         }
 
         private void OnEnnemySeen(EnnemyController ennemy)
         {
+
+
             strategy.UpdateTarget(ennemy.body);
         }
 
         private void OnEnnemySightLost(EnnemyController ennemy)
+
         {    
             
         }
 
         private void OnPickableSeen(PickableController pickable)
         {
+
             strategy.PickableDetected(pickable);
         }
 
         private void OnPickableSightLost(PickableController pickable)
         {
 
-        }      
+
+        }
+        private IEnumerator Flasher()
+        {
+            
+                body.GetComponent<SpriteRenderer>().color = collideColor;
+                yield return new WaitForSeconds(.1f);
+                body.GetComponent<SpriteRenderer>().color = normalColor;                                        
+        }
     }
 }

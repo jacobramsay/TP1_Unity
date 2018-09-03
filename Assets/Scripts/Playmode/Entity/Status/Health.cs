@@ -1,6 +1,6 @@
 ﻿using System;
 using UnityEngine;
-
+using UnityEngine.UI;
 namespace Playmode.Entity.Status
 {
     public delegate void HealthEventHandler();
@@ -8,7 +8,7 @@ namespace Playmode.Entity.Status
     public class Health : MonoBehaviour
     {
         [SerializeField] private int healthPoints = 100;
-
+        public Slider HealthBar;
         public event HealthEventHandler OnDeath;
 
         public int HealthPoints
@@ -25,8 +25,13 @@ namespace Playmode.Entity.Status
         private void Awake()
         {
             ValidateSerialisedFields();
-        }
 
+            HealthBar.value = HealthPoints;
+        }
+        private void Update()
+        {
+            HealthBar.value = HealthPoints;
+        }
         private void ValidateSerialisedFields()
         {
             if (healthPoints < 0)

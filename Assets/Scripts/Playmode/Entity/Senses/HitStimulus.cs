@@ -1,6 +1,7 @@
 ﻿using Playmode.Bullet;
 using Playmode.Util.Values;
 using System;
+using System.Collections;
 using UnityEngine;
 
 namespace Playmode.Entity.Senses
@@ -30,8 +31,9 @@ namespace Playmode.Entity.Senses
             if(other.tag == Tags.Enemy)
             {
                 other.GetComponent<Entity.Senses.HitSensor>()?.Hit(bullet.DamageHitPoints);
-                bullet.GetComponent<Entity.Destruction.RootDestroyer>()?.Destroy();
+                bullet.GetComponent<Entity.Destruction.RootDestroyer>()?.Destroy();              
             }                            
-        }
+        }        
     }
+
 }

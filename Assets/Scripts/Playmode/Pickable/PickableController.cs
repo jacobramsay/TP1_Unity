@@ -14,7 +14,8 @@ namespace Playmode.Pickable
     {
         [Header("Type Images")] [SerializeField] private Sprite MedicalKitSprite;
         [SerializeField] private Sprite UziSprite;
-        [SerializeField] private Sprite ShotgunSprite;       
+        [SerializeField] private Sprite ShotgunSprite;
+        [SerializeField] private Sprite InvincibleSprite;
         private EnnemyPickableSensor enemySensor;
         private PickableSpawner pickableSpawner;
         private PickableType type;
@@ -34,6 +35,9 @@ namespace Playmode.Pickable
                     break;
                 case PickableType.Shotgun:
                     GetComponent<SpriteRenderer>().sprite = ShotgunSprite;
+                    break;
+                case PickableType.Invincible:
+                    GetComponent<SpriteRenderer>().sprite = InvincibleSprite;
                     break;
             }
         }
@@ -68,6 +72,8 @@ namespace Playmode.Pickable
                 throw new ArgumentException("Type sprites must be provided. UziSprite is missing.");
             if (ShotgunSprite == null)
                 throw new ArgumentException("Type sprites must be provided. ShotgunSprite is missing.");
+            if (InvincibleSprite == null)
+                throw new ArgumentException("Type sprites must be provided. InvincibleSprite is missing.");
         }
 
         private void NotifyEnemySensed(EnnemyController ennemyController)
@@ -96,7 +102,8 @@ namespace Playmode.Pickable
                 case PickableType.Shotgun:
                     //  weaponController.Configure(WeaponType.Shotgun);
                    // ennemyController.NewWeapon(WeaponType.Shotgun);
-
+                    break;
+                case PickableType.Invincible:
                     break;
             }
         }
