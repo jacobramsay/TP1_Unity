@@ -25,12 +25,11 @@ namespace Playmode.Entity.Status
         private void Awake()
         {
             ValidateSerialisedFields();
-
             HealthBar.value = HealthPoints;
         }
         private void Update()
         {
-            HealthBar.value = HealthPoints;
+            UpdateHealthBarValue();
         }
         private void ValidateSerialisedFields()
         {
@@ -49,6 +48,10 @@ namespace Playmode.Entity.Status
         private void NotifyDeath()
         {
             if (OnDeath != null) OnDeath();
+        }
+        private void UpdateHealthBarValue()
+        {
+            HealthBar.value = HealthPoints;
         }
     }
 }

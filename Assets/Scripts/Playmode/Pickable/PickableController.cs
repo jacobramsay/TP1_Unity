@@ -25,21 +25,7 @@ namespace Playmode.Pickable
         {
             this.pickableSpawner = pickableSpawner;
             this.type = type;
-            switch (this.type)
-            {
-                case PickableType.MedicalKit:
-                    GetComponent<SpriteRenderer>().sprite = MedicalKitSprite;
-                    break;
-                case PickableType.Uzi:
-                    GetComponent<SpriteRenderer>().sprite = UziSprite;
-                    break;
-                case PickableType.Shotgun:
-                    GetComponent<SpriteRenderer>().sprite = ShotgunSprite;
-                    break;
-                case PickableType.Invincible:
-                    GetComponent<SpriteRenderer>().sprite = InvincibleSprite;
-                    break;
-            }
+            ConfigureSprite();
         }
 
         public PickableType GetPickableType()
@@ -49,9 +35,7 @@ namespace Playmode.Pickable
         private void Awake()
         {
             ValidateSerialisedFields();
-
-            enemySensor = GetComponent<EnnemyPickableSensor>();
-            destroyer = GetComponent<RootDestroyer>();
+            InitializeComponent();
         }
 
         private void OnEnable()
@@ -75,35 +59,31 @@ namespace Playmode.Pickable
             if (InvincibleSprite == null)
                 throw new ArgumentException("Type sprites must be provided. InvincibleSprite is missing.");
         }
-
+        private void InitializeComponent()
+        {
+            enemySensor = GetComponent<EnnemyPickableSensor>();
+            destroyer = GetComponent<RootDestroyer>();
+        }
         private void NotifyEnemySensed(EnnemyController ennemyController)
-        {                     
-            AffectPickableOnEnemy(ennemyController);
+        {                                
             pickableSpawner.ActivateSpawnPoint();
             destroyer.Destroy();
         }
-
-        private void AffectPickableOnEnemy(EnnemyController ennemyController)
+        private void ConfigureSprite()
         {
-
-            var rootTransform = transform.root;
-            var weaponController = rootTransform.GetComponentInChildren<WeaponController>();
-
-
-            switch (type)
+            switch (this.type)
             {
                 case PickableType.MedicalKit:
-                    
+                    GetComponent<SpriteRenderer>().sprite = MedicalKitSprite;
                     break;
                 case PickableType.Uzi:
-                    // weaponController.Configure(WeaponType.Uzi);
-                   // ennemyController.NewWeapon(WeaponType.Uzi);
+                    GetComponent<SpriteRenderer>().sprite = UziSprite;
                     break;
                 case PickableType.Shotgun:
-                    //  weaponController.Configure(WeaponType.Shotgun);
-                   // ennemyController.NewWeapon(WeaponType.Shotgun);
+                    GetComponent<SpriteRenderer>().sprite = ShotgunSprite;
                     break;
                 case PickableType.Invincible:
+                    GetComponent<SpriteRenderer>().sprite = InvincibleSprite;
                     break;
             }
         }

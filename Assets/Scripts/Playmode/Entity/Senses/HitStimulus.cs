@@ -30,10 +30,14 @@ namespace Playmode.Entity.Senses
         {
             if(other.tag == Tags.Enemy)
             {
-                other.GetComponent<Entity.Senses.HitSensor>()?.Hit(bullet.DamageHitPoints);
-                bullet.GetComponent<Entity.Destruction.RootDestroyer>()?.Destroy();              
+                AffectHit(other);      
             }                            
-        }        
+        } 
+        private void AffectHit(Collider2D other)
+        {
+            other.GetComponent<Entity.Senses.HitSensor>()?.Hit(bullet.DamageHitPoints);
+            bullet.GetComponent<Entity.Destruction.RootDestroyer>()?.Destroy();
+        }
     }
 
 }

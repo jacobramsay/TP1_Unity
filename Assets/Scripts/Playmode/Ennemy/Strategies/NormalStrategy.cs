@@ -20,12 +20,7 @@ namespace Playmode.Ennemy.Strategies
                 if (target != null && target.activeSelf)
                 {                                     
                     moverDirection = GetDirectionToTarget();
-                    rotationAngle = GetAngleRotation(target.transform.position);
-                    if (Mathf.Abs(rotationAngle) > 0 )
-                    {
-                        mover.Rotate(rotationAngle);
-                    }
-
+                    UpdateRotationToTarget();
                     if (IsCloseEnoughToTargetPosition(target.transform.position))
                     {
                         handController.Use();

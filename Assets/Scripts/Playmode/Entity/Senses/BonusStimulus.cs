@@ -8,8 +8,7 @@ namespace Playmode.Entity.Senses
 {
     public class BonusStimulus : MonoBehaviour
     {
-        [Header("Behaviour")] [SerializeField] private int healPoints = 30;
-        [SerializeField] private float timeInvincible = 5f;
+        [Header("Behaviour")] [SerializeField] private int healPoints = 30;        
         private PickableController pickable;
         private void Awake()
         {
@@ -31,22 +30,42 @@ namespace Playmode.Entity.Senses
         {
             if (other.tag == Tags.Enemy)
             {
-                switch (pickable.GetPickableType())
-                {
-                    case (PickableType.MedicalKit):
-                        other.GetComponent<Entity.Senses.BonusSensor>()?.Heal(healPoints);
-                        break;
-                    case (PickableType.Shotgun):
-                        other.GetComponent<Entity.Senses.BonusSensor>()?.NewWeapon(WeaponType.Shotgun);
-                        break;
-                    case (PickableType.Uzi):
-                        other.GetComponent<Entity.Senses.BonusSensor>()?.NewWeapon(WeaponType.Uzi);
-                        break;
-                    case (PickableType.Invincible):
-                        other.GetComponent<Entity.Senses.BonusSensor>()?.Invincible();
-                        break;
-                }
+                AffectBonus(other);
             }
+        }
+        private void AffectBonus(Collider2D other)
+        {
+            switch (pickable.GetPickableType())
+            {
+                case (PickableType.MedicalKit):
+                    AffectMedicalKit(other);
+                    break;
+                case (PickableType.Shotgun):
+                    AffectShotgun(other);
+                    break;
+                case (PickableType.Uzi):
+                    AffectUzi(other);
+                    break;
+                case (PickableType.Invincible):
+                    AffectInvincible(other);
+                    break;
+            }
+        }
+        private void AffectMedicalKit(Collider2D other)
+        {
+            other.GetComponent<Entity.Senses.BonusSensor>()?.Heal(healPoints);
+        }
+        private void AffectShotgun(Collider2D other)
+        {
+            other.GetComponent<Entity.Senses.BonusSensor>()?.NewWeapon(WeaponType.Shotgun);
+        }
+        private void AffectUzi(Collider2D other)
+        {
+            other.GetComponent<Entity.Senses.BonusSensor>()?.NewWeapon(WeaponType.Uzi);
+        }
+        private void AffectInvincible(Collider2D other)
+        {
+            other.GetComponent<Entity.Senses.BonusSensor>()?.Invincible();
         }
     }
 }

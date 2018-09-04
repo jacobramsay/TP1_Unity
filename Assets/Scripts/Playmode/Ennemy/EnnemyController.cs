@@ -25,7 +25,8 @@ namespace Playmode.Ennemy
         [SerializeField] private Sprite cowboySprite;
         [SerializeField] private Sprite camperSprite;
         [Header("Behaviour")] [SerializeField] private GameObject startingWeaponPrefab;
-
+        [Header("Options specifications")] [SerializeField] private float invicibilityCountdown;
+    
         private GameController gameController;
         private Health health;
         private Mover mover;
@@ -38,7 +39,6 @@ namespace Playmode.Ennemy
         private EnnemyDiedEventChannel ennemyDiedEventChannel;
         private EnnemyStrategy strategyType;
         private IEnnemyStrategy strategy;
-
         private Color normalColor;
         private Color collideColor;
         private void Awake()
@@ -73,13 +73,8 @@ namespace Playmode.Ennemy
                 throw new ArgumentException("Type sprites must be provided. Camper is missing.");
             if (startingWeaponPrefab == null)
                 throw new ArgumentException("StartingWeapon prefab must be provided.");
-        }
-
-        private IEnumerator InvicibilityRoutine(float countdownValue)
-        {
-            hitSensor.OnHit -= OnHit;
-            yield return new WaitForSeconds(countdownValue);
-            hitSensor.OnHit += OnHit;
+            if (invicibilityCountdown == 0.0f)
+                throw new ArgumentException("Invicibility countdown must be provided.");           
         }
 
         private void InitializeComponent()
@@ -104,24 +99,9 @@ namespace Playmode.Ennemy
                 Quaternion.identity
             ));
         }
-
-        public void ActivateCountdown()
-        {
-            StartCoroutine(InvicibilityRoutine(5.0f));
-        }
-
         private void OnEnable()
         {
-            
-            ennemySensor.OnEnnemySeen += OnEnnemySeen;
-            ennemySensor.OnEnnemySightLost += OnEnnemySightLost;
-            pickableSensor.OnPickableSeen += OnPickableSeen;
-            pickableSensor.OnPickableSightLost += OnPickableSightLost;
-            hitSensor.OnHit += OnHit;
-            bonusSensor.OnHeal += OnHeal;
-            bonusSensor.OnNewWeapon += OnNewWeapon;
-            bonusSensor.OnInvincible += OnInvincible;
-            health.OnDeath += OnDeath;
+            AttachEvents();
         }
 
         private void Update()
@@ -135,10 +115,79 @@ namespace Playmode.Ennemy
 
         private void OnDisable()
         {
-            ennemySensor.OnEnnemySeen -= OnEnnemySeen;
-            ennemySensor.OnEnnemySightLost -= OnEnnemySightLost;
-            pickableSensor.OnPickableSeen -= OnPickableSeen;
-            pickableSensor.OnPickableSightLost -= OnPickableSightLost;
+            DetachEvents();
+        }
+
+        public void Configure(EnnemyStrategy strategy, Color color)
+        {
+            body.GetComponent<SpriteRenderer>().color = color;
+            sight.GetComponent<SpriteRenderer>().color = color;
+            normalColor = color;
+            collideColor = Color.red;
+            strategyType = strategy;
+            ConfigureStrategy();                 
+        }
+        private void OnHeal(int healPoints)
+        {
+            health.Heal(healPoints);
+        }
+
+        private void OnHit(int hitPoints)
+        {
+            health.Hit(hitPoints);
+            StartCoroutine(FlashHit());
+        }
+
+        private void OnNewWeapon(WeaponType weaponType)
+        {           
+            handController.TakeWeapon(weaponType);
+        }
+        private void OnInvincible()
+        {
+            ActivateInvicibiliyCountdown();           
+        }
+
+        private void OnDeath()
+        {
+            ennemyDiedEventChannel.Publish();
+            destroyer.Destroy();
+        }
+
+        private void OnEnnemySeen(EnnemyController ennemy)
+        {
+            strategy.UpdateTarget(ennemy.body);
+        }
+      
+        private void OnPickableSeen(PickableController pickable)
+        {
+            strategy.PickableDetected(pickable);
+        }       
+        private IEnumerator FlashHit()
+        {
+            body.GetComponent<SpriteRenderer>().color = collideColor;
+            yield return new WaitForSeconds(.1f);
+            body.GetComponent<SpriteRenderer>().color = normalColor;
+        }
+        private IEnumerator InvicibilityRoutine(float countdownValue)
+        {
+            hitSensor.OnHit -= OnHit;
+            yield return new WaitForSeconds(countdownValue);
+            hitSensor.OnHit += OnHit;
+        }
+        private void AttachEvents()
+        {
+            ennemySensor.OnEnnemySeen += OnEnnemySeen;            
+            pickableSensor.OnPickableSeen += OnPickableSeen;           
+            hitSensor.OnHit += OnHit;
+            bonusSensor.OnHeal += OnHeal;
+            bonusSensor.OnNewWeapon += OnNewWeapon;
+            bonusSensor.OnInvincible += OnInvincible;
+            health.OnDeath += OnDeath;
+        }
+        private void DetachEvents()
+        {
+            ennemySensor.OnEnnemySeen -= OnEnnemySeen;           
+            pickableSensor.OnPickableSeen -= OnPickableSeen;          
             hitSensor.OnHit -= OnHit;
             bonusSensor.OnHeal -= OnHeal;
             bonusSensor.OnNewWeapon -= OnNewWeapon;
@@ -146,13 +195,12 @@ namespace Playmode.Ennemy
             health.OnDeath -= OnDeath;
         }
 
-        public void Configure(EnnemyStrategy strategy, Color color)
+        private void ActivateInvicibiliyCountdown()
         {
-            body.GetComponent<SpriteRenderer>().color = color;
-            sight.GetComponent<SpriteRenderer>().color = color;
-            strategyType = strategy;
-            normalColor = color;           
-            collideColor = Color.red;
+            StartCoroutine(InvicibilityRoutine(invicibilityCountdown));
+        }
+        private void ConfigureStrategy()
+        {
             switch (strategyType)
             {
                 case EnnemyStrategy.Careful:
@@ -160,7 +208,7 @@ namespace Playmode.Ennemy
                     typeSign.GetComponent<SpriteRenderer>().sprite = carefulSprite;
                     break;
                 case EnnemyStrategy.Cowboy:
-                    this.strategy = new CowboyStrategy(mover, handController,false);
+                    this.strategy = new CowboyStrategy(mover, handController, false);
                     typeSign.GetComponent<SpriteRenderer>().sprite = cowboySprite;
                     break;
                 case EnnemyStrategy.Camper:
@@ -172,64 +220,6 @@ namespace Playmode.Ennemy
                     typeSign.GetComponent<SpriteRenderer>().sprite = normalSprite;
                     break;
             }
-        }
-        private void OnHeal(int healPoints)
-        {
-            health.Heal(healPoints);
-        }
-
-        private void OnHit(int hitPoints)
-        {
-
-            health.Hit(hitPoints);
-            StartCoroutine(Flasher());
-        }
-
-        private void OnNewWeapon(WeaponType weaponType)
-        {           
-            handController.TakeWeapon(weaponType);
-        }
-        private void OnInvincible()
-        {
-            ActivateCountdown();           
-        }
-        private void OnDeath()
-        {
-
-            ennemyDiedEventChannel.Publish();
-            destroyer.Destroy();
-        }
-
-        private void OnEnnemySeen(EnnemyController ennemy)
-        {
-
-
-            strategy.UpdateTarget(ennemy.body);
-        }
-
-        private void OnEnnemySightLost(EnnemyController ennemy)
-
-        {    
-            
-        }
-
-        private void OnPickableSeen(PickableController pickable)
-        {
-
-            strategy.PickableDetected(pickable);
-        }
-
-        private void OnPickableSightLost(PickableController pickable)
-        {
-
-
-        }
-        private IEnumerator Flasher()
-        {
-            
-                body.GetComponent<SpriteRenderer>().color = collideColor;
-                yield return new WaitForSeconds(.1f);
-                body.GetComponent<SpriteRenderer>().color = normalColor;                                        
         }
     }
 }

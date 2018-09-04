@@ -22,6 +22,7 @@ namespace Playmode.Ennemy.Strategies
         public bool IsChasing { get; set; }
         public bool IsSearching { get; set; }
         private IEnnemyStrategy ennemyStrategy;
+
         public BaseStrategy(Mover mover, HandController handController)
         {
             this.mover = mover;
@@ -44,19 +45,17 @@ namespace Playmode.Ennemy.Strategies
         {
             IsChasing = true;
         }
-
         public void StartSearching()
         {
             IsSearching = true;
         }
-
         public virtual void UpdateTarget(GameObject target)
         {
             if (!IsChasing)
             {
-                this.target = target;
-                IsChasing = true;
+                this.target = target;                
                 IsSearching = false;
+                StartChasing();
             }
         }
 
@@ -113,5 +112,14 @@ namespace Playmode.Ennemy.Strategies
         {
             ennemyStrategy = strategy;
         }
+        protected void UpdateRotationToTarget()
+        {
+            rotationAngle = GetAngleRotation(target.transform.position);
+            if (Mathf.Abs(rotationAngle) > 0)
+            {
+                mover.Rotate(rotationAngle);
+            }
+        }
+        
     }
 }
