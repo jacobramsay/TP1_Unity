@@ -11,8 +11,8 @@ namespace Playmode.Ennemy
     {
         private static readonly Color[] DefaultColors =
         {
-            Color.white, Color.black, Color.blue, Color.cyan, Color.green,
-            Color.magenta, Color.gray, Color.yellow, new Color(255, 125, 0, 255)
+            Color.white,new Color(247, 131, 200), Color.blue, Color.cyan, Color.green,
+            new Color(235, 255, 181), Color.gray, Color.yellow, new Color(255, 125, 0, 255)
         };
 
         private static readonly EnnemyStrategy[] DefaultStrategies =
