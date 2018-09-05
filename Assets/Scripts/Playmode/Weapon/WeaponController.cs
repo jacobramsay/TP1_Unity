@@ -8,9 +8,7 @@ namespace Playmode.Weapon
     public class WeaponController : MonoBehaviour
     {
         [Header("Behaviour")] [SerializeField] private GameObject bulletPrefab;
-        [SerializeField] private float fireDelayInSeconds = 2f;
-        [SerializeField] private float weaponDamage = 0f;
-
+        [SerializeField] private float fireDelayInSeconds = 2f;        
         private float lastTimeShotInSeconds;
         private WeaponType type;
 
@@ -27,34 +25,11 @@ namespace Playmode.Weapon
         {
             switch (weaponType)
             {
-                case WeaponType.Uzi:
-                   // GetComponent<SpriteRenderer>().sprite = UziSprite;
-                   if(type == weaponType)
-                    {                        
-                        fireDelayInSeconds = fireDelayInSeconds/2;
-                        bulletPrefab.GetComponentInChildren<BulletController>().DamageHitPoints++;
-                    }
-                    else
-                    {
-                        type = weaponType;
-                        fireDelayInSeconds = fireDelayInSeconds / 5;
-                        weaponDamage -= weaponDamage / 2;
-                        bulletPrefab.GetComponentInChildren<BulletController>().DamageHitPoints = 5;
-                    }
+                case WeaponType.Uzi:                    
+                    ConfigureUzi();
                     break;
-                case WeaponType.Shotgun:
-                    // GetComponent<SpriteRenderer>().sprite = ShotgunSprite;
-                    if (type == weaponType)
-                    {
-                        bulletPrefab.GetComponentInChildren<BulletController>().DamageHitPoints += 5;
-                        weaponDamage += weaponDamage / 2;
-                    }
-                    else
-                    {
-                        bulletPrefab.GetComponentInChildren<BulletController>().DamageHitPoints = 20;
-                        type = weaponType;
-                        fireDelayInSeconds = 2.5f;
-                    }
+                case WeaponType.Shotgun:                  
+                    ConfigureShotgun();
                     break;
             }
         }
@@ -76,33 +51,69 @@ namespace Playmode.Weapon
             {
                 if(type == WeaponType.Shotgun)
                 {
-                    var baseAngle = transform.rotation;
-
-                    Instantiate(bulletPrefab, transform.position, transform.rotation);
-
-                    transform.Rotate(Vector3.forward, -10);
-                    Instantiate(bulletPrefab, transform.position, transform.rotation);
-
-                    transform.Rotate(Vector3.forward,5);
-                    Instantiate(bulletPrefab, transform.position, transform.rotation);
-
-                    transform.Rotate(Vector3.forward, 10);
-                    Instantiate(bulletPrefab, transform.position, transform.rotation);
-
-                    transform.Rotate(Vector3.forward, 5);
-                    Instantiate(bulletPrefab, transform.position, transform.rotation);
-
-                    transform.rotation = baseAngle;
-                    
-                    lastTimeShotInSeconds = Time.time;
+                    ShootShotGunBullets();
                 }
                 else
                 {
-                    Instantiate(bulletPrefab, transform.position, transform.rotation);
-                    lastTimeShotInSeconds = Time.time;
+                    ShootBullet();
                 }
                 
             }
+        }
+
+        private void ConfigureUzi()
+        {
+            if (type == WeaponType.Uzi)
+            {
+                fireDelayInSeconds = fireDelayInSeconds / 2;
+                bulletPrefab.GetComponentInChildren<BulletController>().DamageHitPoints++;
+            }
+            else
+            {
+                type = WeaponType.Uzi;
+                fireDelayInSeconds = fireDelayInSeconds / 5;               
+                bulletPrefab.GetComponentInChildren<BulletController>().DamageHitPoints = 5;
+            }
+        }
+        private void ConfigureShotgun()
+        {
+            if (type == WeaponType.Shotgun)
+            {
+                bulletPrefab.GetComponentInChildren<BulletController>().DamageHitPoints += 5;             
+            }
+            else
+            {
+                bulletPrefab.GetComponentInChildren<BulletController>().DamageHitPoints = 20;
+                type = WeaponType.Shotgun;
+                fireDelayInSeconds = 2.5f;
+            }
+        }
+        private void ShootShotGunBullets()
+        {
+            var baseAngle = transform.rotation;
+
+            Instantiate(bulletPrefab, transform.position, transform.rotation);
+
+            transform.Rotate(Vector3.forward, -10);
+            Instantiate(bulletPrefab, transform.position, transform.rotation);
+
+            transform.Rotate(Vector3.forward, 5);
+            Instantiate(bulletPrefab, transform.position, transform.rotation);
+
+            transform.Rotate(Vector3.forward, 10);
+            Instantiate(bulletPrefab, transform.position, transform.rotation);
+
+            transform.Rotate(Vector3.forward, 5);
+            Instantiate(bulletPrefab, transform.position, transform.rotation);
+
+            transform.rotation = baseAngle;
+
+            lastTimeShotInSeconds = Time.time;
+        }
+        private void ShootBullet()
+        {
+            Instantiate(bulletPrefab, transform.position, transform.rotation);
+            lastTimeShotInSeconds = Time.time;
         }
     }
 }
