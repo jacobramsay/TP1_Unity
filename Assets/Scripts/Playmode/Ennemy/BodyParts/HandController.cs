@@ -34,19 +34,11 @@ namespace Playmode.Ennemy.BodyParts
             {
                 weapon = null;
             }
-        }
-
-        public void AimTowards(GameObject target)
-        {
-            //TODO : Utilisez ce que vous savez des vecteurs pour implémenter cette méthode
-            throw new NotImplementedException();
-        }
-
+        }       
         public void TakeWeapon(WeaponType weaponType)
         {
             weapon.Configure(weaponType);
         }
-
         public void Use()
         {
             if (weapon != null) weapon.Shoot();

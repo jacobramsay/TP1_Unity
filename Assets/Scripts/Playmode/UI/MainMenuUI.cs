@@ -5,7 +5,6 @@ using UnityEngine;
 
 public class MainMenuUI : MonoBehaviour
 {
-
     private GameController gameController;
 
     private void Awake()
@@ -13,7 +12,6 @@ public class MainMenuUI : MonoBehaviour
         gameController = GameObject.FindWithTag(Tags.GameController)
                                    .GetComponent<GameController>();
         gameController.OnGameStartedChanged += UpdateUI;
-
         UpdateUI();
     }
 

@@ -51,7 +51,6 @@ namespace Playmode.Bullet
         private void Update()
         {
             UpdateLifeSpan();
-
             Act();
         }
 

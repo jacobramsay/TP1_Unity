@@ -46,11 +46,6 @@ namespace Playmode.Ennemy
             ValidateSerialisedFields();
             InitializeComponent();
             CreateStartingWeapon();
-
-            ennemyDiedEventChannel = GameObject.FindWithTag(Tags.GameController).GetComponent<EnnemyDiedEventChannel>();
-            gameController = GameObject.FindWithTag(Tags.GameController).GetComponent<GameController>();
-
-
         }
 
         private void ValidateSerialisedFields()
@@ -88,7 +83,10 @@ namespace Playmode.Ennemy
             pickableSensor = rootTransform.GetComponentInChildren<PickableSensor>();
             hitSensor = rootTransform.GetComponentInChildren<HitSensor>();
             bonusSensor = rootTransform.GetComponentInChildren<BonusSensor>();
-            handController = hand.GetComponent<HandController>();                       
+            handController = hand.GetComponent<HandController>();
+
+            ennemyDiedEventChannel = GameObject.FindWithTag(Tags.GameController).GetComponent<EnnemyDiedEventChannel>();
+            gameController = GameObject.FindWithTag(Tags.GameController).GetComponent<GameController>();
         }
 
         private void CreateStartingWeapon()
@@ -106,7 +104,6 @@ namespace Playmode.Ennemy
 
         private void Update()
         {
-
             if (gameController.IsGameStarted && !gameController.IsGameOver)
             {
                 strategy.Act();
