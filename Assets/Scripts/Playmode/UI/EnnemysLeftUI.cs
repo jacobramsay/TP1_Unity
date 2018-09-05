@@ -10,19 +10,16 @@ using UnityEngine.UI;
 public class EnnemysLeftUI : MonoBehaviour {
 
     public Text textLabel;
-    private GameController gameController;
-    
 
+    private GameController gameController;
     private int nbEnnemysLeft;
 
-	// Use this for initialization
-	void Awake () {
-
+	void Awake ()
+    {
         textLabel = GetComponent<Text>();
         nbEnnemysLeft = Const.NB_ENNEMYS;
-        textLabel.text = "Ennemy(s) left : " + nbEnnemysLeft;
         gameController = GameObject.FindWithTag(Tags.GameController).GetComponent<GameController>();
-
+        UpdateText();
     }
     private void OnEnable()
     {
@@ -33,9 +30,14 @@ public class EnnemysLeftUI : MonoBehaviour {
         gameController.OnDecrementNbEnnemys -= UpdateUI;
     }
 
-    // Update is called once per frame
-    void UpdateUI () {
+    void UpdateUI ()
+    {
         nbEnnemysLeft--;
+        UpdateText();
+    }
+
+    private void UpdateText()
+    {
         textLabel.text = "Ennemy(s) left : " + nbEnnemysLeft;
     }
 }

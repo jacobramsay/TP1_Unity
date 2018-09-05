@@ -7,13 +7,10 @@ public class EndScreenUI : MonoBehaviour
 {
     private GameController gameController;
 
-    // Use this for initialization
     void Awake()
     {
         gameController = GameObject.FindWithTag(Tags.GameController)
                            .GetComponent<GameController>();
-        gameController.OnGameOverChanged += UpdateUI;
-
         UpdateUI();
     }
 
@@ -27,7 +24,6 @@ public class EndScreenUI : MonoBehaviour
         gameController.OnGameOverChanged -= UpdateUI;
     }
 
-    // Update is called once per frame
     void UpdateUI()
     {
         gameObject.SetActive(gameController.IsGameOver);
