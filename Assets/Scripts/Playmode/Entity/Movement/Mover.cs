@@ -21,8 +21,6 @@ namespace Playmode.Movement
             StartCoroutine(SpawnPrefabsRoutine());
         }
 
-    
-
         private void OnEnable()
         {
             ActivateScanTarget();

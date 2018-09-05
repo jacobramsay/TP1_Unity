@@ -3,8 +3,6 @@ using Playmode.Entity.Status;
 using Playmode.Movement;
 using Playmode.Pickable;
 using Playmode.Util.Values;
-using System;
-using System.Collections;
 using UnityEngine;
 
 namespace Playmode.Ennemy.Strategies
@@ -18,7 +16,7 @@ namespace Playmode.Ennemy.Strategies
         private bool IsChasingGun;
         private bool IsChasingMedic;
         private GameObject targetEnnemy;
-        Health health;
+        private Health health;
 
 
         public CamperStrategy(Mover mover, HandController handController) : base(mover, handController)
@@ -48,7 +46,7 @@ namespace Playmode.Ennemy.Strategies
             {
                 if (target != null && target.activeSelf)
                 {
-                    if ((IsCloseEnoughToMedicPosition(target.transform.position) == false))
+                    if (IsCloseEnoughToMedicPosition(target.transform.position) == false)
                     {
                         moverDirection = GetDirectionToTarget();
                         rotationAngle = GetAngleRotation(target.transform.position);
@@ -59,7 +57,7 @@ namespace Playmode.Ennemy.Strategies
                         mover.Move(Vector3.up*speedChasingMedic);
                     }
 
-                    if(health.HealthPoints<=25)
+                    else if(health.HealthPoints<=25)
                     {
                         moverDirection = GetDirectionToTarget();
                         rotationAngle = GetAngleRotation(target.transform.position);
@@ -75,7 +73,7 @@ namespace Playmode.Ennemy.Strategies
                         mover.ActivateScanTarget();
                     }
 
-                    else if(targetEnnemy != null && targetEnnemy.CompareTag(Tags.Enemy))
+                    if(targetEnnemy != null && targetEnnemy.CompareTag(Tags.Enemy) && health.HealthPoints>25)
                     {
                         
                         moverDirection = GetDirectionToTargetEnnemy();
@@ -107,7 +105,7 @@ namespace Playmode.Ennemy.Strategies
 
         public override void UpdateTarget(GameObject targetEnnemy)
         {
-            if ((!IsChasing && !IsChasingGun &&!IsChasingMedic) || (IsChasingMedic && (IsCloseEnoughToMedicPosition(target.transform.position)) && target != null))
+            if ((!IsChasing && !IsChasingGun && !IsChasingMedic) || (IsChasingMedic && (IsCloseEnoughToMedicPosition(target.transform.position)) && target != null))
             {
                 this.targetEnnemy = targetEnnemy;
             }
