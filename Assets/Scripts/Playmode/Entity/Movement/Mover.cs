@@ -18,7 +18,7 @@ namespace Playmode.Movement
 
         public void ActivateScanTarget()
         {
-            StartCoroutine(SpawnPrefabsRoutine());
+            StartCoroutine(SpawnScanDelayRoutine());
         }
 
         private void OnEnable()
@@ -31,7 +31,7 @@ namespace Playmode.Movement
             StopAllCoroutines();
         }
 
-        private IEnumerator SpawnPrefabsRoutine()
+        private IEnumerator SpawnScanDelayRoutine()
         {
             var rdmSpawnDelayInSeconds = UnityEngine.Random.Range(minScanDelayInSeconds, maxScanDelayInSeconds);
             yield return new WaitForSeconds(rdmSpawnDelayInSeconds);

@@ -32,15 +32,13 @@ namespace Playmode.Ennemy.Strategies
                 {
                     moverDirection = GetDirectionToTarget();
                     UpdateRotationToTarget();
-                    mover.Move(Vector3.up);
-                             
+                    mover.Move(Vector3.up);                            
                 }
                 else
                 {
                     StartSearching();
                     StopChasingGun();
                 }
-
             }
             else if (IsChasingMedic)
             {
@@ -56,7 +54,6 @@ namespace Playmode.Ennemy.Strategies
                         }
                         mover.Move(Vector3.up*speedChasingMedic);
                     }
-
                     else if(health.HealthPoints<=25)
                     {
                         moverDirection = GetDirectionToTarget();
@@ -67,15 +64,12 @@ namespace Playmode.Ennemy.Strategies
                         }
                         mover.Move(Vector3.up*speedChasingMedic);
                     }
-
-                    if(targetEnnemy==null)
+                    else if(targetEnnemy==null)
                     {
                         mover.ActivateScanTarget();
                     }
-
-                    if(targetEnnemy != null && targetEnnemy.CompareTag(Tags.Enemy) && health.HealthPoints>25)
-                    {
-                        
+                    else if(targetEnnemy != null && targetEnnemy.CompareTag(Tags.Enemy) && health.HealthPoints>25)
+                    {                        
                         moverDirection = GetDirectionToTargetEnnemy();
                         rotationAngle = GetAngleRotation(targetEnnemy.transform.position);
                         if (Mathf.Abs(rotationAngle) > 0)
@@ -105,7 +99,7 @@ namespace Playmode.Ennemy.Strategies
 
         public override void UpdateTarget(GameObject targetEnnemy)
         {
-            if ((!IsChasing && !IsChasingGun && !IsChasingMedic) || (IsChasingMedic && (IsCloseEnoughToMedicPosition(target.transform.position)) && target != null))
+            if ((!IsChasing && !IsChasingGun && !IsChasingMedic) || (IsChasingMedic && IsCloseEnoughToMedicPosition(target.transform.position) && target != null))
             {
                 this.targetEnnemy = targetEnnemy;
             }
@@ -115,7 +109,7 @@ namespace Playmode.Ennemy.Strategies
         {
             if (pickable!=null)
             {            
-                if (pickable.GetPickableType() == PickableType.MedicalKit)
+                if (pickable.GetPickableType() == PickableType.MedicalKit && IsChasingMedic==false)
                 {
                     target = pickable.gameObject;
                     StartChasingMedic();

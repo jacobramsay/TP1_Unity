@@ -4,12 +4,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class TimeUI : MonoBehaviour {
-
-    private GameController gameController;
-
+public class TimeUI : MonoBehaviour
+{
     public Text timerLabel;
 
+    private GameController gameController;
     private float time;
 
     private void Awake()
@@ -22,14 +21,18 @@ public class TimeUI : MonoBehaviour {
     {
         if (gameController.IsGameStarted && !gameController.IsGameOver)
         {
-            time += Time.deltaTime;
-
-            var minutes = time / 60; //Divide the guiTime by sixty to get the minutes.
-            var seconds = time % 60;//Use the euclidean division for the seconds.
-            var fraction = (time * 100) % 100;
-
-            //update the label value
-            timerLabel.text = string.Format("{0:00} : {1:00} : {2:000}", minutes, seconds, fraction);
+            UpdateText();
         }
+    }
+
+    void UpdateText()
+    {
+        time += Time.deltaTime;
+
+        var minutes = time / 60;
+        var seconds = time % 60;
+        var fraction = (time * 100) % 100;
+
+        timerLabel.text = string.Format("{0:00} : {1:00} : {2:000}", minutes, seconds, fraction);
     }
 }
