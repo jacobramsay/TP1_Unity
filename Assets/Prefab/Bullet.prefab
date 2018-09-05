@@ -141,6 +141,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 50
   rotateSpeed: 1
+  minScanDelayInSeconds: 1
+  maxScanDelayInSeconds: 3
+  currCountdownValue: 0
 --- !u!114 &114221040686375684
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -164,7 +167,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lifeSpanInSeconds: 2
-  damageHitPoints: 25
+  damageHitPoints: 100
 --- !u!114 &114689733757894144
 MonoBehaviour:
   m_ObjectHideFlags: 1
