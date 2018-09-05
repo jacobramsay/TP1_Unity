@@ -49,9 +49,12 @@ public class GameController : MonoBehaviour {
     void Awake () {
         ennemyDiedEventChannel = GetComponent<EnnemyDiedEventChannel>();
         NbPlayersLeft = Const.NB_ENNEMYS;
-        mainController = GameObject.FindWithTag(Tags.MainController).GetComponent<MainController>();
         startKey = "space";
-	}
+    }
+    private void Start()
+    {       
+        mainController = GameObject.FindWithTag(Tags.MainController).GetComponent<MainController>();        
+    }
     private void OnEnable()
     {
         ennemyDiedEventChannel.OnEventPublished += DecrementPlayersLeft;
